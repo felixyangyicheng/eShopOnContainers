@@ -1,6 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $ingressPath := include "pathBase" . -}}
-apiVersion: extensions/v1beta1
+{{- $serviceName := .Values.app.svc.blazor -}}
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ template "webblazor.fullname" . }}
@@ -33,13 +34,16 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.hosts }}
+    {{- range .Values.ingress.hosts }}
     - host: {{ . }}
       http:
         paths:
           - path: {{ $ingressPath }}
+            pathType: Prefix
             backend:
-              serviceName: {{ $.Values.app.svc.blazor }}
-              servicePort: http
+              service:
+                name: {{ $serviceName }}
+                port:
+                  number: 80
   {{- end }}
 {{- end }}
