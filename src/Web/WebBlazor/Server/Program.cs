@@ -8,7 +8,7 @@ using WebBlazor.Server;
 
 BuildWebHost(args).Run();
 
-IWebHost BuildWebHost(string[] args) =>
+static IWebHost BuildWebHost(string[] args) =>
     WebHost.CreateDefaultBuilder(args)
      .UseStartup<Startup>()
         .UseContentRoot(Directory.GetCurrentDirectory())

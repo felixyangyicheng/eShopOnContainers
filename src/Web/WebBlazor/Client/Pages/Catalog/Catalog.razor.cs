@@ -72,19 +72,13 @@ namespace WebBlazor.Client.Pages.Catalog
         private void OnBrandFilterChanged(ChangeEventArgs e)
         {
             var value = e.Value.ToString();
-            if (value == "All")
-                brandSelected = null;
-            else
-                brandSelected = int.Parse(value);
+            brandSelected = (value == "All") ? null : int.Parse(value);
         }
 
         private void OnTypeFilterChanged(ChangeEventArgs e)
         {
             var value = e.Value.ToString();
-            if (value == "All")
-                typeSelected = null;
-            else
-                typeSelected = int.Parse(value);
+            typeSelected = (value == "All") ? null : int.Parse(value);
         }
 
         private async Task OnFilterApplied()
