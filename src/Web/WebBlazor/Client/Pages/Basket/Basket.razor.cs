@@ -38,14 +38,6 @@ namespace WebBlazor.Client.Pages.Basket
             basket = await BasketService.GetBasket(userId);
         }
 
-        private void ItemQuantityChanged(BasketItemDTO item, ChangeEventArgs e)
-        {
-            item.Quantity = int.TryParse(e.Value.ToString(), out var result) ? result : 1;
-            //if (item.Quantity < 1)
-            //    return;
-            //await BasketService.SetQuantities(userId, basket.Items.ToDictionary(x => x.Id, y => y.Quantity));
-        }
-
         private async Task Update()
         {
             try
@@ -72,5 +64,13 @@ namespace WebBlazor.Client.Pages.Basket
             await Update();
             Navigation.NavigateTo("ordersnew");
         }
+
+        //private void ItemQuantityChanged(BasketItemDTO item, ChangeEventArgs e)
+        //{
+        //    item.Quantity = int.TryParse(e.Value.ToString(), out var result) ? result : 1;
+        //    //if (item.Quantity < 1)
+        //    //    return;
+        //    //await BasketService.SetQuantities(userId, basket.Items.ToDictionary(x => x.Id, y => y.Quantity));
+        //}
     }
 }

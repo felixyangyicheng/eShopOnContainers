@@ -7,7 +7,7 @@ namespace WebBlazor.Client.Services.ModelDTOs
 
         public string Name { get; }
 
-        public static OrderProcessActionDTO Ship = new(nameof(Ship).ToLowerInvariant(), "Ship");
+        internal static OrderProcessActionDTO Ship = new(nameof(Ship).ToLowerInvariant(), "Ship");
 
         protected OrderProcessActionDTO()
         {

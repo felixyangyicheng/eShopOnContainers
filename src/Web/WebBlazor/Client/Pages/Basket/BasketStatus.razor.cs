@@ -47,6 +47,7 @@ namespace WebBlazor.Client.Pages.Basket
         {
             EventService.BasketItemAdded -= UpdateBadge;
             EventService.OrderCreated -= ResetBadge;
+            GC.SuppressFinalize(this);
         }
     }
 }
