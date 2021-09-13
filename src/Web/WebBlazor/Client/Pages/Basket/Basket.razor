@@ -25,8 +25,7 @@
                 <section class="esh-basket-item esh-basket-item--middle col-3">@item.ProductName</section>
                 <section class="esh-basket-item esh-basket-item--middle col-2">$ @item.UnitPrice.ToString("N2")</section>
                 <section class="esh-basket-item esh-basket-item--middle col-2">
-                    <input id="quantity"
-                           class="esh-basket-input @(item.Quantity < 1 ? "border border-danger" : "")"
+                    <input class="esh-basket-input @(item.Quantity < 1 ? "border border-danger" : "")"
                            type="number"
                            min="1"
                            @bind="item.Quantity" />
