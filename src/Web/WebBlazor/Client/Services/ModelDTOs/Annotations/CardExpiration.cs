@@ -9,7 +9,9 @@ namespace WebBlazor.Client.Services.ModelDTOs.Annotations
         public override bool IsValid(object value)
         {
             if (value == null)
+            {
                 return false;
+            }
 
             var valueSplit = value.ToString().Split('/');
             var monthString = valueSplit[0];

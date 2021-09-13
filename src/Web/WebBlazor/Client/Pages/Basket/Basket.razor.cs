@@ -51,7 +51,9 @@ namespace WebBlazor.Client.Pages.Basket
             try
             {
                 if (HasItemWithInvalidQuantity)
+                {
                     return;
+                }
                 await BasketService.UpdateBasket(basket);
                 errorUpdate = false;
             }
@@ -64,7 +66,9 @@ namespace WebBlazor.Client.Pages.Basket
         private async Task CheckOut()
         {
             if (HasItemWithInvalidQuantity)
+            {
                 return;
+            }
             await Update();
             Navigation.NavigateTo("ordersnew");
         }

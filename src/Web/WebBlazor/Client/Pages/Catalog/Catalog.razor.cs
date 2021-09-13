@@ -37,7 +37,9 @@ namespace WebBlazor.Client.Pages.Catalog
             var user = (await AuthenticationStateTask).User;
             authenticated = user.Identity.IsAuthenticated;
             if (authenticated)
+            {
                 userId = user.GetSub();
+            }
             await LoadData();
         }
 

@@ -57,7 +57,9 @@ namespace WebBlazor.Client.Pages.Orders
         private async Task SubmitForm()
         {
             if (!editContext.Validate())
+            {
                 return;
+            }
             var basket = OrderingService.MapOrderToBasket(order);
             try
             {

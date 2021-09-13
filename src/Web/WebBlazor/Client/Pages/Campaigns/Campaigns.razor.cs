@@ -70,13 +70,17 @@ namespace WebBlazor.Client.Pages.Campaigns
         private async Task OnNavigateToDetails(string uri)
         {
             if (!string.IsNullOrWhiteSpace(uri))
+            {
                 await JsRuntime.InvokeVoidAsync("openBlankWindow", uri);
+            }
         }
 
         private void OnNavigateToDetails(int id)
         {
             if (id > 0)
+            {
                 Navigation.NavigateTo($"campaigns/{id}");
+            }
         }
 
         private async Task UpdateUserLocation() =>
