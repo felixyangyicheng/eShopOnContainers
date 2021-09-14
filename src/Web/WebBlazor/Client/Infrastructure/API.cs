@@ -1,9 +1,9 @@
 ﻿
 namespace WebBlazor.Client.Infrastructure
 {
-    public class API
+    public static class API
     {
-        public static class Catalog
+        internal static class Catalog
         {
             public static string GetAllCatalogItems(string baseUri, int page, int take, int? brand, int? type)
             {
@@ -34,7 +34,7 @@ namespace WebBlazor.Client.Infrastructure
                 $"{baseUri}catalogTypes";
         }
 
-        public static class Basket
+        internal static class Basket
         {
             public static string GetBasket(string baseUri, string basketId) =>
                 $"{baseUri}/{basketId}";
@@ -46,7 +46,7 @@ namespace WebBlazor.Client.Infrastructure
                 $"{baseUri}/checkout";
         }
 
-        public static class Purchase
+        internal static class Purchase
         {
             public static string AddItemToBasket(string baseUri) =>
                 $"{baseUri}/basket/items";
@@ -58,7 +58,7 @@ namespace WebBlazor.Client.Infrastructure
                 $"{baseUri}/order/draft/{basketId}";
         }
 
-        public static class Marketing
+        internal static class Marketing
         {
             public static string GetAllCampaigns(string baseUri, int take, int page) =>
                 $"{baseUri}user?pageSize={take}&pageIndex={page}";
@@ -67,13 +67,13 @@ namespace WebBlazor.Client.Infrastructure
                 $"{baseUri}{id}";
         }
 
-        public static class Locations
+        internal static class Locations
         {
             public static string CreateOrUpdateUserLocation(string baseUri) =>
                 baseUri;
         }
 
-        public static class Order
+        internal static class Order
         {
             public static string GetAllMyOrders(string baseUri) =>
                 baseUri;

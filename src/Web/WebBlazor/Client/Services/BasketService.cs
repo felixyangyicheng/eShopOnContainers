@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -35,7 +36,7 @@ namespace WebBlazor.Client.Services
             var uri = API.Basket.GetBasket(_basketByPassUrl, userId);
             _logger.LogDebug("[GetBasket] -> Calling {Uri} to get the basket", uri);
 
-            var response = await _httpClient.GetAsync(uri);
+            var response = await _httpClient.GetAsync(new Uri(uri));
             _logger.LogDebug("[GetBasket] -> response code {StatusCode}", response.StatusCode);
 
             var responseString = await response.Content.ReadAsStringAsync();
@@ -56,9 +57,9 @@ namespace WebBlazor.Client.Services
                 Quantity = 1
             };
 
-            var basketContent = new StringContent(JsonSerializer.Serialize(newItem), Encoding.UTF8, "application/json");
+            using var basketContent = new StringContent(JsonSerializer.Serialize(newItem), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync(uri, basketContent);
+            var response = await _httpClient.PostAsync(new Uri(uri), basketContent);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -80,9 +81,9 @@ namespace WebBlazor.Client.Services
                 }).ToArray()
             };
 
-            var basketContent = new StringContent(JsonSerializer.Serialize(basketUpdate), Encoding.UTF8, "application/json");
+            using var basketContent = new StringContent(JsonSerializer.Serialize(basketUpdate), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PutAsync(uri, basketContent);
+            var response = await _httpClient.PutAsync(new Uri(uri), basketContent);
 
             response.EnsureSuccessStatusCode();
 
@@ -95,9 +96,9 @@ namespace WebBlazor.Client.Services
         {
             var uri = API.Basket.UpdateBasket(_basketByPassUrl);
 
-            var basketContent = new StringContent(JsonSerializer.Serialize(basket), Encoding.UTF8, "application/json");
+            using var basketContent = new StringContent(JsonSerializer.Serialize(basket), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync(uri, basketContent);
+            var response = await _httpClient.PostAsync(new Uri(uri), basketContent);
 
             response.EnsureSuccessStatusCode();
 
@@ -108,7 +109,7 @@ namespace WebBlazor.Client.Services
         {
             var uri = API.Purchase.GetOrderDraft(_purchaseUrl, basketId);
 
-            var responseString = await _httpClient.GetStringAsync(uri);
+            var responseString = await _httpClient.GetStringAsync(new Uri(uri));
 
             var response = JsonSerializer.Deserialize<OrderDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
@@ -119,11 +120,11 @@ namespace WebBlazor.Client.Services
         {
             var uri = API.Basket.CheckoutBasket(_basketByPassUrl);
 
-            var basketContent = new StringContent(JsonSerializer.Serialize(basket), Encoding.UTF8, "application/json");
+            using var basketContent = new StringContent(JsonSerializer.Serialize(basket), Encoding.UTF8, "application/json");
 
             _logger.LogInformation("Uri checkout {uri}", uri);
 
-            var response = await _httpClient.PostAsync(uri, basketContent);
+            var response = await _httpClient.PostAsync(new Uri(uri), basketContent);
 
             response.EnsureSuccessStatusCode();
 

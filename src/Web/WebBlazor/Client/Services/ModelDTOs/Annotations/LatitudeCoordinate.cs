@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace WebBlazor.Client.Services.ModelDTOs.Annotations
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public class LatitudeCoordinate : ValidationAttribute
+    public sealed class LatitudeCoordinate : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext) =>
             (!double.TryParse(value.ToString(), out var coordinate) || (coordinate < -90 || coordinate > 90))

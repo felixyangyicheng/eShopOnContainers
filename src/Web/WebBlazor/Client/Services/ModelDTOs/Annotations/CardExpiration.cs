@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace WebBlazor.Client.Services.ModelDTOs.Annotations
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public class CardExpirationAttribute : ValidationAttribute
+    public sealed class CardExpirationAttribute : ValidationAttribute
     {
         public override bool IsValid(object value)
         {

@@ -67,7 +67,7 @@ namespace WebBlazor.Client.Services
         {
             var uri = API.Order.GetAllMyOrders(_remoteServiceBaseUrl);
 
-            var responseString = await _httpClient.GetStringAsync(uri);
+            var responseString = await _httpClient.GetStringAsync(new Uri(uri));
 
             var response = JsonSerializer.Deserialize<List<OrderDTO>>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
@@ -80,9 +80,9 @@ namespace WebBlazor.Client.Services
 
             var order = new OrderDTO { OrderNumber = orderId };
 
-            var orderContent = new StringContent(JsonSerializer.Serialize(order), Encoding.UTF8, "application/json");
+            using var orderContent = new StringContent(JsonSerializer.Serialize(order), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PutAsync(uri, orderContent);
+            var response = await _httpClient.PutAsync(new Uri(uri), orderContent);
 
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -96,7 +96,7 @@ namespace WebBlazor.Client.Services
         {
             var uri = API.Order.GetOrder(_remoteServiceBaseUrl, orderId);
             
-            var responseString = await _httpClient.GetStringAsync(uri);
+            var responseString = await _httpClient.GetStringAsync(new Uri(uri));
 
             var response = JsonSerializer.Deserialize<OrderDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
@@ -109,9 +109,9 @@ namespace WebBlazor.Client.Services
 
             var order = new OrderDTO { OrderNumber = orderId };
 
-            var orderContent = new StringContent(JsonSerializer.Serialize(order), Encoding.UTF8, "application/json");
+            using var orderContent = new StringContent(JsonSerializer.Serialize(order), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PutAsync(uri, orderContent);
+            var response = await _httpClient.PutAsync(new Uri(uri), orderContent);
 
             if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
