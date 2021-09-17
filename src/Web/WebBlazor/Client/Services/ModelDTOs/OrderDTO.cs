@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Text.Json.Serialization;
 using WebBlazor.Client.Services.ModelDTOs.Annotations;
 using WebBlazor.Client.Services.ModelDTOs.Converters;
@@ -61,7 +62,7 @@ namespace WebBlazor.Client.Services.ModelDTOs
         public Guid RequestId { get; set; }
 
         public void CardExpirationShortFormat() =>
-            CardExpirationShort = CardExpiration.ToString("MM/yy");
+            CardExpirationShort = CardExpiration.ToString("MM/yy", CultureInfo.InvariantCulture);
 
         public void CardExpirationApiFormat()
         {
@@ -69,14 +70,14 @@ namespace WebBlazor.Client.Services.ModelDTOs
             var month = expirationSplit[0];
             var year = $"20{expirationSplit[1]}";
 
-            CardExpiration = new DateTime(int.Parse(year), int.Parse(month), 1);
+            CardExpiration = new DateTime(int.Parse(year, CultureInfo.InvariantCulture), int.Parse(month, CultureInfo.InvariantCulture), 1);
         }
 
         public List<OrderProcessActionDTO> ActionCodeSelectList =>
            GetActionCodesByCurrentState();
 
         private List<OrderProcessActionDTO> GetActionCodesByCurrentState() =>
-            (Status?.ToLower() == "paid") ?
+            (Status?.ToLowerInvariant() == "paid") ?
                 new() { OrderProcessActionDTO.Ship } :
                 new();
     }

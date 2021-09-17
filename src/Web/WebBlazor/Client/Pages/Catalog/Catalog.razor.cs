@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using WebBlazor.Client.Extensions;
@@ -74,13 +75,13 @@ namespace WebBlazor.Client.Pages.Catalog
         private void OnBrandFilterChanged(ChangeEventArgs e)
         {
             var value = e.Value.ToString();
-            brandSelected = (value == "All") ? null : int.Parse(value);
+            brandSelected = (value == "All") ? null : int.Parse(value, CultureInfo.InvariantCulture);
         }
 
         private void OnTypeFilterChanged(ChangeEventArgs e)
         {
             var value = e.Value.ToString();
-            typeSelected = (value == "All") ? null : int.Parse(value);
+            typeSelected = (value == "All") ? null : int.Parse(value, CultureInfo.InvariantCulture);
         }
 
         private async Task OnFilterApplied()

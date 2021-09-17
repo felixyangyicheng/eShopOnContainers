@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
@@ -36,7 +37,7 @@ namespace WebBlazor.Client.Services
 
             order.CardNumber = user.GetCardNumber();
             order.CardHolderName = user.GetCardHolderName();
-            order.CardExpiration = new DateTime(int.Parse("20" + expirationSplit[1]), int.Parse(expirationSplit[0]), 1);
+            order.CardExpiration = new DateTime(int.Parse("20" + expirationSplit[1], CultureInfo.InvariantCulture), int.Parse(expirationSplit[0], CultureInfo.InvariantCulture), 1);
             order.CardSecurityNumber = user.GetSecurityNumber();
 
             return order;

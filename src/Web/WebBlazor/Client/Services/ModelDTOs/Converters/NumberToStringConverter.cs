@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -11,7 +12,7 @@ namespace WebBlazor.Client.Services.ModelDTOs.Converters
             if (reader.TokenType == JsonTokenType.Number)
             {
                 var numberValue = reader.GetInt32();
-                return numberValue.ToString();
+                return numberValue.ToString(CultureInfo.InvariantCulture);
             }
             else if (reader.TokenType == JsonTokenType.String)
             {

@@ -1,4 +1,5 @@
-﻿
+﻿using System.Globalization;
+
 namespace WebBlazor.Client.Infrastructure
 {
     public static class API
@@ -11,12 +12,12 @@ namespace WebBlazor.Client.Infrastructure
 
                 if (type.HasValue)
                 {
-                    var brandQs = brand.HasValue ? brand.Value.ToString() : string.Empty;
+                    var brandQs = brand.HasValue ? brand.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
                     filterQs = $"/type/{type.Value}/brand/{brandQs}";
                 }
                 else if (brand.HasValue)
                 {
-                    var brandQs = brand.HasValue ? brand.Value.ToString() : string.Empty;
+                    var brandQs = brand.HasValue ? brand.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
                     filterQs = $"/type/all/brand/{brandQs}";
                 }
                 else

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using System.Security.Claims;
 
 namespace WebBlazor.Client.Extensions
@@ -52,6 +53,6 @@ namespace WebBlazor.Client.Extensions
             claimsPrincipal.Claims.FirstOrDefault(x => x.Type == "phone_number")?.Value ?? string.Empty;
 
         public static int GetCardType(this ClaimsPrincipal claimsPrincipal) =>
-            int.Parse(claimsPrincipal.Claims.FirstOrDefault(x => x.Type == "missing")?.Value ?? "0");
+            int.Parse(claimsPrincipal.Claims.FirstOrDefault(x => x.Type == "missing")?.Value ?? "0", CultureInfo.InvariantCulture);
     }
 }
