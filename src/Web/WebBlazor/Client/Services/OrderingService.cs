@@ -27,6 +27,15 @@ namespace WebBlazor.Client.Services
 
         public OrderDTO MapUserInfoIntoOrder(ClaimsPrincipal user, OrderDTO order)
         {
+            if (user is null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             var expirationSplit = user.GetExpiration().Split('/');
 
             order.City = user.GetCity();
@@ -45,6 +54,11 @@ namespace WebBlazor.Client.Services
 
         public BasketCheckoutDTO MapOrderToBasket(OrderDTO order)
         {
+            if (order is null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+
             order.CardExpirationApiFormat();
 
             return new()

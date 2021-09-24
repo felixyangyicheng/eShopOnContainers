@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using WebBlazor.Client.Extensions;
 using WebBlazor.Client.Services;
@@ -32,6 +33,6 @@ namespace WebBlazor.Client.Pages.Orders
         }
 
         private async Task GetOrder(string userId) =>
-            order = await OrderingService.GetOrder(userId, Id.ToString());
+            order = await OrderingService.GetOrder(userId, Id.ToString(CultureInfo.InvariantCulture));
     }
 }
