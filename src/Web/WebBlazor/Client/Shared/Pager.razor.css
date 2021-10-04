@@ -4,6 +4,7 @@
 }
 
 .esh-pager-item {
+    font-size: 0.875rem;
     margin: 0 5vw;
 }
 
@@ -18,17 +19,5 @@
 }
 
     .esh-pager-item--navigable:hover {
-        color: #83D01B;
+        color: #292929;
     }
-
-@media screen and (max-width: 1280px) {
-    .esh-pager-item {
-        font-size: 0.85rem;
-    }
-}
-
-@media screen and (max-width: 1024px) {
-    .esh-pager-item {
-        margin: 0 2.5vw;
-    }
-}

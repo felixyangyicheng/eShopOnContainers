@@ -1,70 +1,73 @@
-@page "/"
 @page "/catalog"
 
-<section class="esh-catalog-hero">
-    <div class="container">
-        <img class="esh-catalog-title" src="assets/images/main_banner_text.png" />
-    </div>
-</section>
-
-<section class="esh-catalog-filters">
-    <div class="container">
-        <div class="alert alert-warning esh-catalog-alert" hidden="@(!errorReceived)" role="alert">
-            Error requesting catalog products, please try later on
-        </div>
-        <label class="esh-catalog-label" data-title="brand">
-            <select class="esh-catalog-filter" @onchange="OnBrandFilterChanged"> @*@bind="brandSelected"*@
-                @foreach (var brand in brands)
-                {
-                    <option value="@brand.Id" selected="@brand.Selected">@brand.Brand</option>
-                }
-            </select>
-        </label>
-        <label class="esh-catalog-label" data-title="type">
-            <select class="esh-catalog-filter" @onchange="OnTypeFilterChanged"> @*@bind="typeSelected"*@
-                @foreach (var type in types)
-                {
-                    <option value="@type.Id" selected="@type.Selected">@type.Type</option>
-                }
-            </select>
-        </label>
-        <img class="esh-catalog-send" @onclick="OnFilterApplied" src="assets/images/arrow-right.svg" />
-    </div>
-</section>
-
-<div class="container">
-    <br />
-    @if (catalog?.Data.Count > 0)
-    {
-        <div>
-            <Pager Model="paginationInfo" Changed="OnPageChanged" />
-
-            <div class="esh-catalog-items row">
-                @foreach (var item in catalog?.Data)
-                {
-                    <div class="esh-catalog-item col-md-4">
-                        <img class="esh-catalog-thumbnail" src="@item.PictureUri" />
-                        <button class="esh-catalog-button @(!authenticated ? "is-disabled" : "")" @onclick="() => AddToCart(item)">
-                            [ ADD TO CART ]
-                        </button>
-
-                        <div class="esh-catalog-name">
-                            <span>@item.Name</span>
-                        </div>
-                        <div class="esh-catalog-price">
-                            <span>&nbsp;@item.Price</span>
-                        </div>
-                    </div>
-                }
+<div class="mb-5">
+    <section class="esh-catalog-filters">
+        <div class="container">
+            <div class="alert alert-warning esh-catalog-alert" role="alert" hidden="@(!errorReceived)">
+                Error requesting catalog products, please try later on
             </div>
+            <div class="esh-catalog-filters-wrapper d-flex align-items-end mt-3">
+                <div class="esh-catalog-filter-wrapper">
+                    <label class="esh-catalog-label" for="brand">Brand</label>
+                    <select class="esh-catalog-filter form-control" id="brand" @onchange="OnBrandFilterChanged"> @*@bind="brandSelected"*@
+                        @foreach (var brand in brands)
+                        {
+                            <option value="@brand.Id" selected="@brand.Selected">@brand.Brand</option>
+                        }
+                    </select>
+                </div>
+                <div class="esh-catalog-filter-wrapper">
+                    <label class="esh-catalog-label" for="type">Type</label>
+                    <select class="esh-catalog-filter form-control" id="type" @onchange="OnTypeFilterChanged"> @*@bind="typeSelected"*@
+                        @foreach (var type in types)
+                        {
+                            <option value="@type.Id" selected="@type.Selected">@type.Type</option>
+                        }
+                    </select>
+                </div>
+                <button type="button" class="btn btn-primary" @onclick="OnFilterApplied">Apply</button>
+            </div>
+        </div>
+    </section>
 
-            <Pager Model="paginationInfo" Changed="OnPageChanged" />
-        </div>
-    }
-    else if (catalog?.Data.Count == 0)
-    {
-        <div class="esh-catalog-items row">
-            THERE ARE NO RESULTS THAT MATCH YOUR SEARCH
-        </div>
-    }
+    <div class="container">
+        @if (catalog?.Data.Count > 0)
+        {
+            <div>
+                <Pager Model="paginationInfo" Changed="OnPageChanged" />
+
+                <div class="esh-catalog-items row">
+                    @foreach (var item in catalog?.Data)
+                    {
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="esh-catalog-item @(!authenticated ? "is-disabled" : "")" @onclick="() => AddToCart(item)">
+                                <div class="esh-catalog-thumbnail-wrapper">
+                                    <div class="esh-catalog-thumbnail-icon d-flex justify-content-center">
+                                        <img class="esh-catalog-thumbnail-icon-svg" src="assets/images/add.svg" />
+                                    </div>
+                                    <img class="esh-catalog-thumbnail" src="@item.PictureUri" />
+                                </div>
+                                <div class="esh-catalog-details d-flex justify-content-between align-items-center">
+                                    <div class="esh-catalog-name ml-3">
+                                        <span>@item.Name</span>
+                                    </div>
+                                    <div class="esh-catalog-price mr-3">
+                                        <span>@item.Price</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <Pager Model="paginationInfo" Changed="OnPageChanged" />
+            </div>
+        }
+        else if (catalog?.Data.Count == 0)
+        {
+            <div>
+                <span>THERE ARE NO RESULTS THAT MATCH YOUR SEARCH</span>
+            </div>
+        }
+    </div>
 </div>

@@ -9,7 +9,7 @@
 
     string partialView;
 
-    if (returnUrl[0].Contains("client_id=js"))
+    if (returnUrl[0].Contains("client_id=js") || returnUrl[0].Contains("client_id=blazor"))
     {
         Layout = "_Layout-SPA";
         partialView = "_RegisterPartial-SPA.cshtml";

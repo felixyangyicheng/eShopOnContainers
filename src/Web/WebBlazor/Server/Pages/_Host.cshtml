@@ -1,7 +1,7 @@
 ﻿@page "/"
 @namespace WebBlazor.Server.Pages
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@*@using WebBlazor.Client*@
+@*@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using WebBlazor.Client*@
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
 
@@ -11,20 +11,23 @@
     else if (!pathBase.EndsWith("/")) pathBase = $"{pathBase}/";
 }
 
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>WebBlazor</title>
+    <title>eShopOnContainers - WebBlazor SPA</title>
     <base href="@pathBase" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="css/site.min.css" rel="stylesheet" />
     <link href="WebBlazor.Client.styles.css" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 </head>
 <body>
     <app>
         Loading...
+        <div class="preloading">
+            <i class="fa fa-spinner fa-spin fa-5x" aria-hidden="true"></i>
+        </div>
         @*<component type="typeof(App)" render-mode="WebAssemblyPrerendered" />*@
     </app>
     <div id="blazor-error-ui">
