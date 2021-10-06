@@ -26,7 +26,7 @@ namespace WebBlazor.Client.Pages.Basket
         {
             var userId = (await AuthenticationStateTask).User.GetSub();
             await UpdateBadge(userId);
-            EventService.BasketItemAdded += UpdateBadge;
+            EventService.BasketUpdated += UpdateBadge;
             EventService.OrderCreated += ResetBadge;
         }
 
@@ -45,7 +45,7 @@ namespace WebBlazor.Client.Pages.Basket
 
         public void Dispose()
         {
-            EventService.BasketItemAdded -= UpdateBadge;
+            EventService.BasketUpdated -= UpdateBadge;
             EventService.OrderCreated -= ResetBadge;
         }
     }

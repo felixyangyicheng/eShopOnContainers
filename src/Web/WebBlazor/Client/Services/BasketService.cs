@@ -40,7 +40,7 @@ namespace WebBlazor.Client.Services
             _logger.LogDebug("[GetBasket] -> response code {StatusCode}", response.StatusCode);
 
             var responseString = await response.Content.ReadAsStringAsync();
-            
+
             return string.IsNullOrEmpty(responseString) ?
                 new() { BuyerId = userId } :
                 JsonSerializer.Deserialize<BasketDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
@@ -61,9 +61,11 @@ namespace WebBlazor.Client.Services
 
             var response = await _httpClient.PostAsync(new Uri(uri), basketContent);
 
+            response.EnsureSuccessStatusCode();
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                _eventService.OnBasketItemAdded(userId);
+                _eventService.OnBasketUpdated(userId);
             }
         }
 
@@ -101,6 +103,11 @@ namespace WebBlazor.Client.Services
             var response = await _httpClient.PostAsync(new Uri(uri), basketContent);
 
             response.EnsureSuccessStatusCode();
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                _eventService.OnBasketUpdated(basket.BuyerId);
+            }
 
             return basket;
         }

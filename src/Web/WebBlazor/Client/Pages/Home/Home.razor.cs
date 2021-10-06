@@ -9,6 +9,6 @@ namespace WebBlazor.Client.Pages.Home
         private NavigationManager Navigation { get; set; }
 
         protected override void OnInitialized() =>
-            Navigation.NavigateTo("/catalog");
+            Navigation.NavigateTo("catalog");
     }
 }

@@ -2,13 +2,11 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebBlazor.Client.Extensions;
 using WebBlazor.Client.Services;
 using WebBlazor.Client.Services.ModelDTOs;
-using WebBlazor.Client.Shared.Models;
 
 namespace WebBlazor.Client.Pages.Basket
 {
@@ -18,7 +16,6 @@ namespace WebBlazor.Client.Pages.Basket
         private bool errorUpdate;
         private BasketDTO basket = new();
         private string userId;
-        private readonly List<HeaderInfo> header = new() { new() { Url = "catalog", Text = "Back to catalog" } };
         
         [Inject]
         private IBasketService BasketService { get; set; }
@@ -38,39 +35,49 @@ namespace WebBlazor.Client.Pages.Basket
             basket = await BasketService.GetBasket(userId);
         }
 
-        private async Task Update()
+        private async Task<bool> Update()
         {
             try
             {
                 if (HasItemWithInvalidQuantity)
                 {
-                    return;
+                    errorUpdate = false;
+                    return false;
                 }
                 await BasketService.UpdateBasket(basket);
                 errorUpdate = false;
+                return true;
             }
             catch (Exception)
             {
                 errorUpdate = true;
+                return false;
             }
         }
 
         private async Task CheckOut()
         {
-            if (HasItemWithInvalidQuantity)
+            if (await Update())
+            {
+                Navigation.NavigateTo("ordersnew");
+            }
+        }
+
+        private async Task ItemQuantityChanged(BasketItemDTO item, int quantity)
+        {
+            item.Quantity = quantity > 0 ? quantity : 1;
+            await Update();
+        }
+
+        private async Task DeleteItem(string id)
+        {
+            var itemToRemove = basket.Items.FirstOrDefault(x => x.Id == id);
+            if (itemToRemove == null)
             {
                 return;
             }
+            basket.Items.Remove(itemToRemove);
             await Update();
-            Navigation.NavigateTo("ordersnew");
         }
-
-        //private void ItemQuantityChanged(BasketItemDTO item, ChangeEventArgs e)
-        //{
-        //    item.Quantity = int.TryParse(e.Value.ToString(), out var result) ? result : 1;
-        //    //if (item.Quantity < 1)
-        //    //    return;
-        //    //await BasketService.SetQuantities(userId, basket.Items.ToDictionary(x => x.Id, y => y.Quantity));
-        //}
     }
 }

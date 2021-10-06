@@ -5,11 +5,11 @@ namespace WebBlazor.Client.Services
 {
     public interface IEventService
     {
-        event Func<string, Task> BasketItemAdded;
+        event Func<string, Task> BasketUpdated;
 
         event Action OrderCreated;
 
-        void OnBasketItemAdded(string userId);
+        void OnBasketUpdated(string userId);
 
         void OnOrderCreated();
     }
