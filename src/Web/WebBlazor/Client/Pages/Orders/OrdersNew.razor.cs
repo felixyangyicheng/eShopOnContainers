@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebBlazor.Client.Extensions;
 using WebBlazor.Client.Services;
 using WebBlazor.Client.Services.ModelDTOs;
-using WebBlazor.Client.Shared.Models;
 
 namespace WebBlazor.Client.Pages.Orders
 {
@@ -17,10 +15,9 @@ namespace WebBlazor.Client.Pages.Orders
     {
         private bool errorReceived;
         private bool isOrderProcessing;
-        private readonly List<HeaderInfo> header = new() { new() { Url = "basket", Text = "Back to cart" } };
         private OrderDTO order;
         private EditContext editContext;
-        
+
         [Inject]
         private IOrderingService OrderingService { get; set; }
 

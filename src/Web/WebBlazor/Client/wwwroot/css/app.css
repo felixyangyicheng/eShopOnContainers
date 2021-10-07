@@ -11,8 +11,6 @@
     .btn:focus {
         box-shadow: none;
         opacity: .7;
-        background-color: #f44e3d;
-        border-color: #f34331;
     }
 
     .btn:hover {
@@ -42,10 +40,30 @@
     color: #f66f61;
 }
 
+    .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active {
+        background-color: #f34331;
+        border-color: #f33825;
+    }
+
+    .btn-primary:focus {
+        background-color: #f44e3d;
+        border-color: #f34331;
+    }
+
 .btn-secondary {
     border-color: #292929;
     color: #292929;
 }
+
+    .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active {
+        background-color: #101010;
+        border-color: #090909;
+    }
+
+    .btn-secondary:focus {
+        background-color: #161616;
+        border-color: #101010;
+    }
 
     .btn-secondary:hover {
         background-color: #161616;
@@ -293,6 +311,13 @@ select::-ms-expand {
     border-radius: 0;
     color: #f66f61;
     font-size: 1.25rem;
+}
+
+.validation-message {
+    background-color: #292929;
+    color: #f66f61;
+    font-size: 1.25rem;
+    padding: .75rem 1.25rem;
 }
 
 .divider {

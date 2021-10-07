@@ -44,8 +44,8 @@ namespace WebBlazor.Client.Services.ModelDTOs
 
         public DateTime CardExpiration { get; set; }
 
-        [RegularExpression(@"(0[1-9]|1[0-2])\/[0-9]{2}", ErrorMessage = "Expiration should match a valid MM/YY value")]
-        [CardExpiration(ErrorMessage = "The card is expired")]
+        [RegularExpression(@"(0[1-9]|1[0-2])\/[0-9]{2}", ErrorMessage = "Expiration should match a valid MM/YY value.")]
+        [CardExpiration(ErrorMessage = "The card is expired.")]
         [Required, DisplayName("Card expiration")]
         public string CardExpirationShort { get; set; }
 
