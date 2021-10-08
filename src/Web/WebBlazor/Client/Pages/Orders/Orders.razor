@@ -1,35 +1,47 @@
 ﻿@page "/orders"
 
-<div class="esh-orders">
-    <Header Model="header" />
-    <div class="container">
-        <div class="alert alert-warning esh-orders-alert" role="alert" hidden="@(!errorReceived)">
-            Error requesting order list, please try later on
+<div class="mb-5">
+    <div class="esh-orders">
+        <div class="container">
+            <h1 class="mb-4 mt-5">[ Order List ]</h1>
+            <div class="esh-orders-alert alert" role="alert" hidden="@(!errorReceived)">
+                Error requesting order list, please try later on
+            </div>
+
+            <div class="esh-orders-wrapper">
+                <article class="esh-orders-titles row">
+                    <section class="col-1"></section>
+                    <section class="col-3">Date</section>
+                    <section class="col-2">Total</section>
+                    <section class="col-2">Status</section>
+                    <section class="col-2"></section>
+                    <section class="col-2"></section>
+                </article>
+
+                @foreach (var order in orders)
+                {
+                    <article class="esh-orders-item divider row">
+                        <section class="col-1">@order.OrderNumber</section>
+                        <section class="col-3">@order.Date.ToString("M/d/yy, h:mm tt")</section>
+                        <section class="col-2">$@order.Total.ToString("N2")</section>
+                        <section class="col-2">@order.Status</section>
+                        <section class="col-2">
+                            @if (order.Status.ToLower() == "submitted")
+                            {
+                                <a class="esh-orders-link u-cursor-pointer" @onclick="() => CancelOrder(order.OrderNumber)">Cancel</a>
+                            }
+                        </section>
+                        <section class="col-2">
+                            <a class="esh-orders-link" href="orders/@order.OrderNumber">Details</a>
+                        </section>
+                    </article>
+                }
+
+                <aside class="d-flex justify-content-end mt-5 pr-5">
+                    <a class="btn btn-primary" href="ordersmanagement">Orders Management</a>
+                    <a class="btn btn-secondary ml-1" href="catalog">Continue Shopping</a>
+                </aside>
+            </div>
         </div>
-        <article class="esh-orders-titles row">
-            <section class="esh-orders-title col-2">Order number</section>
-            <section class="esh-orders-title col-4">Date</section>
-            <section class="esh-orders-title col-2">Total</section>
-            <section class="esh-orders-title col-2">Status</section>
-            <section class="esh-orders-title col-2"></section>
-        </article>
-        @foreach (var order in orders)
-        {
-            <article class="esh-orders-items row">
-                <section class="esh-orders-item col-2">@order.OrderNumber</section>
-                <section class="esh-orders-item col-4">@order.Date.ToString("MM/dd/yyyy HH:mm:ss")</section>
-                <section class="esh-orders-item col-2">$ @order.Total.ToString("N2")</section>
-                <section class="esh-orders-item col-2">@order.Status</section>
-                <section class="esh-orders-item col-1">
-                    <a class="esh-orders-link" href="orders/@order.OrderNumber">Detail</a>
-                </section>
-                <section class="esh-orders-item col-1">
-                    @if (order.Status.ToLower() == "submitted")
-                    {
-                        <a class="esh-orders-link" @onclick="() => CancelOrder(order.OrderNumber)">Cancel</a>
-                    }
-                </section>
-            </article>
-        }
     </div>
 </div>

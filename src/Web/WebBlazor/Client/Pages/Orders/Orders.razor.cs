@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using WebBlazor.Client.Extensions;
 using WebBlazor.Client.Services;
 using WebBlazor.Client.Services.ModelDTOs;
-using WebBlazor.Client.Shared.Models;
 
 namespace WebBlazor.Client.Pages.Orders
 {
@@ -22,12 +21,6 @@ namespace WebBlazor.Client.Pages.Orders
         private string userId;
         private HubConnection hubConnection;
         private List<OrderDTO> orders = new();
-        private readonly List<HeaderInfo> header = new()
-        {
-            new() { Url = "catalog", Text = "Back to catalog" },
-            new() { Text = "/" },
-            new() { Url = "ordersmanagement", Text = "Orders Management" }
-        };
         
         [Inject]
         private IOrderingService OrderingService { get; set; }
