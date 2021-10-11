@@ -42,6 +42,8 @@ Web SPA :  http://host.docker.internal:5104/
 
 ### Blazor WebAssembly web client
 
+![](img/eshop-blazor-spa-app.png)
+
 This fork adds a Blazor WebAssembly web client, available at:
 
 ```
