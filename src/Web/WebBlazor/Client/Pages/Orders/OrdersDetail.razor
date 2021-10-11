@@ -1,82 +1,53 @@
 ﻿@page "/orders/{id:int}"
 
-<div class="esh-orders_detail">
-    <Header Model="header" />
-
-    <div class="container">
-        <section class="esh-orders_detail-section">
-            <article class="esh-orders_detail-titles row">
-                <section class="esh-orders_detail-title col-3">Order number</section>
-                <section class="esh-orders_detail-title col-3">Date</section>
-                <section class="esh-orders_detail-title col-3">Total</section>
-                <section class="esh-orders_detail-title col-3">Status</section>
-            </article>
-
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-3">@order.OrderNumber</section>
-                <section class="esh-orders_detail-item col-3">@order.Date.ToString("MM/dd/yyyy HH:mm:ss")</section>
-                <section class="esh-orders_detail-item col-3">$@order.Total.ToString("N2")</section>
-                <section class="esh-orders_detail-item col-3">@order.Status?.ToUpper()</section>
-            </article>
-        </section>
-        
-        <section class="esh-orders_detail-section">
-            <article class="esh-orders_detail-titles row">
-                <section class="esh-orders_detail-title col-12">Description</section>
-            </article>
-
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-12">@order.Description</section>
-            </article>
-        </section>
-
-        <section class="esh-orders_detail-section">
-            <article class="esh-orders_detail-titles row">
-                <section class="esh-orders_detail-title col-12">Shipping address</section>
-            </article>
-
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-12">@order.Street</section>
-            </article>
-
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-12">@order.City</section>
-            </article>
-
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-12">@order.Country</section>
-            </article>
-        </section>
-
-        <section class="esh-orders_detail-section">
-            <article class="esh-orders_detail-titles row">
-                <section class="esh-orders_detail-title col-12">Order details</section>
-            </article>
-
-            @foreach (var item in order.OrderItems)
-            {
-                <article class="esh-orders_detail-items esh-orders_detail-items--border row">
-                    <section class="esh-orders_detail-item col-md-4 hidden-md-down">
-                        <img class="esh-orders_detail-image" src="@item.PictureUrl">
-                    </section>
-                    <section class="esh-orders_detail-item esh-orders_detail-item--middle col-4">@item.ProductName</section>
-                    <section class="esh-orders_detail-item esh-orders_detail-item--middle col-1">$ @item.UnitPrice.ToString("N2")</section>
-                    <section class="esh-orders_detail-item esh-orders_detail-item--middle col-1">@item.Units</section>
-                    <section class="esh-orders_detail-item esh-orders_detail-item--middle col-2">$ @Math.Round(item.Units * item.UnitPrice, 2).ToString("N2")</section>
+<div class="mb-5">
+    <div class="esh-orders_detail">
+        <div class="container">
+            <h1 class="mb-4 mt-5">[ Order List Detail ]</h1>
+            <div class="u-background-brightest p-5">
+                <article class="esh-orders_detail-titles row">
+                    <section class="col-3">Order number</section>
+                    <section class="col-3">Date</section>
+                    <section class="col-3">Total</section>
+                    <section class="col-3">Status</section>
                 </article>
-            }
-        </section>
 
-        <section class="esh-orders_detail-section esh-orders_detail-section--right">
-            <article class="esh-orders_detail-titles esh-basket-titles--clean row">
-                <section class="esh-orders_detail-title col-9"></section>
-                <section class="esh-orders_detail-title col-2">Total</section>
-            </article>
+                <article class="esh-orders_detail-items row">
+                    <section class="col-3">@order.OrderNumber</section>
+                    <section class="col-3">@order.Date.ToString("M/d/yy, h:mm tt")</section>
+                    <section class="col-3">$ @order.Total.ToString("N2")</section>
+                    <section class="col-3">@order.Status</section>
+                </article>
 
-            <article class="esh-orders_detail-items row">
-                <section class="esh-orders_detail-item col-9"></section>
-                <section class="esh-orders_detail-item esh-orders_detail-item--mark col-2">$ @order.Total</section>
-            </article>
-        </section>
+                <h2 class="esh-orders_detail-title mt-5">Shipping address</h2>
+                <div class="u-mb-5">@order.Street @order.City @order.Country</div>
+
+                @foreach (var item in order.OrderItems)
+                {
+                    <article class="esh-orders_detail-items divider divider--bottom d-flex align-items-center pb-3 mt-3 u-text-sm">
+                        <div class="esh-orders_detail-thumbnail-container">
+                            <div class="esh-orders_detail-thumbnail-wrapper">
+                                <img class="esh-orders_detail-thumbnail" src="@item.PictureUrl">
+                            </div>
+                        </div>
+                        <div class="row w-100 ml-3">
+                            <div class="col-6">@item.ProductName</div>
+                            <div class="col-2">$ @item.UnitPrice.ToString("N2")</div>
+                            <div class="col-2">@item.Units</div>
+                            <div class="col-2 text-right">$@Math.Round(item.Units * item.UnitPrice, 2).ToString("N2")</div>
+                        </div>
+                    </article>
+                }
+
+                <div class="d-flex align-items-center justify-content-end mt-4 mb-4 text-uppercase u-text-xl">
+                    <div>Total</div>
+                    <div class="ml-3">$@order.Total</div>
+                </div>
+
+                <aside class="d-flex justify-content-end mt-5">
+                    <a class="btn btn-secondary" href="orders">Back to list</a>
+                </aside>
+            </div>
+        </div>
     </div>
 </div>

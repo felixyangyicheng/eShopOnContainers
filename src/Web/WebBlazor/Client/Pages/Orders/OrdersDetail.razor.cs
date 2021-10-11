@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using WebBlazor.Client.Extensions;
 using WebBlazor.Client.Services;
 using WebBlazor.Client.Services.ModelDTOs;
-using WebBlazor.Client.Shared.Models;
 
 namespace WebBlazor.Client.Pages.Orders
 {
@@ -15,7 +13,6 @@ namespace WebBlazor.Client.Pages.Orders
     public partial class OrdersDetail
     {
         private OrderDTO order = new();
-        private readonly List<HeaderInfo> header = new() { new() { Url = "catalog", Text = "Back to catalog" } };
         
         [Inject]
         private IOrderingService OrderingService { get; set; }
