@@ -13,10 +13,10 @@ namespace WebBlazor.Client.Shared
         [Inject]
         private SignOutSessionStateManager SignOutManager { get; set; }
 
-        private void BeginSignIn(MouseEventArgs args) =>
+        private void BeginSignIn(MouseEventArgs _) =>
             Navigation.NavigateTo("authentication/login");
 
-        private async Task BeginSignOut(MouseEventArgs args)
+        private async Task BeginSignOut(MouseEventArgs _)
         {
             await SignOutManager.SetSignOutState();
             Navigation.NavigateTo("authentication/logout");

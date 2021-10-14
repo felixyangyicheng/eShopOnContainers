@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 
 namespace WebBlazor.Client.Services.ModelDTOs
 {
@@ -10,6 +10,6 @@ namespace WebBlazor.Client.Services.ModelDTOs
 
         public int Count { get; init; }
 
-        public List<CampaignItemDTO> Data { get; init; }
+        public Collection<CampaignItemDTO> Data { get; init; }
     }
 }

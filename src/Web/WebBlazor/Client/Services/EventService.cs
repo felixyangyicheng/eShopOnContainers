@@ -9,8 +9,8 @@ namespace WebBlazor.Client.Services
 
         public event Action OrderCreated;
 
-        public void OnBasketUpdated(string userId) =>
-            BasketUpdated?.Invoke(userId);
+        public async Task OnBasketUpdated(string userId) =>
+            await BasketUpdated?.Invoke(userId);
 
         public void OnOrderCreated() =>
             OrderCreated?.Invoke();

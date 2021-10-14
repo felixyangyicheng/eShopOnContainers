@@ -9,7 +9,7 @@ using WebBlazor.Client.Services;
 namespace WebBlazor.Client.Pages.Basket
 {
     [Authorize]
-    public partial class BasketStatus : IDisposable
+    public sealed partial class BasketStatus : IDisposable
     {
         private int badge;
         

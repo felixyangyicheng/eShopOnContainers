@@ -65,7 +65,7 @@ namespace WebBlazor.Client.Services
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                _eventService.OnBasketUpdated(userId);
+                await _eventService.OnBasketUpdated(userId);
             }
         }
 
@@ -96,6 +96,11 @@ namespace WebBlazor.Client.Services
 
         public async Task<BasketDTO> UpdateBasket(BasketDTO basket)
         {
+            if (basket is null)
+            {
+                throw new ArgumentNullException(nameof(basket));
+            }
+
             var uri = API.Basket.UpdateBasket(_basketByPassUrl);
 
             using var basketContent = new StringContent(JsonSerializer.Serialize(basket), Encoding.UTF8, "application/json");
@@ -106,7 +111,7 @@ namespace WebBlazor.Client.Services
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                _eventService.OnBasketUpdated(basket.BuyerId);
+                await _eventService.OnBasketUpdated(basket.BuyerId);
             }
 
             return basket;

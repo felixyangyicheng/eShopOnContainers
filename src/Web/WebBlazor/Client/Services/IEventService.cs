@@ -9,7 +9,7 @@ namespace WebBlazor.Client.Services
 
         event Action OrderCreated;
 
-        void OnBasketUpdated(string userId);
+        Task OnBasketUpdated(string userId);
 
         void OnOrderCreated();
     }

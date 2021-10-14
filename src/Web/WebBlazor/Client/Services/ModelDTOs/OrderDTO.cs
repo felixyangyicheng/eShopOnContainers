@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
@@ -56,7 +56,7 @@ namespace WebBlazor.Client.Services.ModelDTOs
 
         public string Buyer { get; set; }
 
-        public List<OrderItemDTO> OrderItems { get; set; } = new();
+        public Collection<OrderItemDTO> OrderItems { get; set; } = new();
 
         [Required]
         public Guid RequestId { get; set; }
@@ -73,10 +73,10 @@ namespace WebBlazor.Client.Services.ModelDTOs
             CardExpiration = new DateTime(int.Parse(year, CultureInfo.InvariantCulture), int.Parse(month, CultureInfo.InvariantCulture), 1);
         }
 
-        public List<OrderProcessActionDTO> ActionCodeSelectList =>
+        public Collection<OrderProcessActionDTO> ActionCodeSelectList =>
            GetActionCodesByCurrentState();
 
-        private List<OrderProcessActionDTO> GetActionCodesByCurrentState() =>
+        private Collection<OrderProcessActionDTO> GetActionCodesByCurrentState() =>
             (Status?.ToLowerInvariant() == "paid") ?
                 new() { OrderProcessActionDTO.Ship } :
                 new();
