@@ -5,26 +5,25 @@ using System.Threading.Tasks;
 using WebBlazor.Client.Infrastructure;
 using WebBlazor.Client.Services.ModelDTOs;
 
-namespace WebBlazor.Client.Services
+namespace WebBlazor.Client.Services;
+
+public class LocationService : ILocationService
 {
-    public class LocationService : ILocationService
+    private readonly HttpClient _httpClient;
+    private readonly string _remoteServiceBaseUrl;
+
+    public LocationService(HttpClient httpClient, IConfiguration configuration)
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _remoteServiceBaseUrl;
+        _httpClient = httpClient;
+        _remoteServiceBaseUrl = $"{configuration["MarketingUrl"]}/l/api/v1/locations/";
+    }
 
-        public LocationService(HttpClient httpClient, IConfiguration configuration)
-        {
-            _httpClient = httpClient;
-            _remoteServiceBaseUrl = $"{configuration["MarketingUrl"]}/l/api/v1/locations/";
-        }
+    public async Task CreateOrUpdateUserLocation(LocationDTO location)
+    {
+        var uri = API.Locations.CreateOrUpdateUserLocation(_remoteServiceBaseUrl);
 
-        public async Task CreateOrUpdateUserLocation(LocationDTO location)
-        {
-            var uri = API.Locations.CreateOrUpdateUserLocation(_remoteServiceBaseUrl);
+        var response = await _httpClient.PostAsJsonAsync(uri, location);
 
-            var response = await _httpClient.PostAsJsonAsync(uri, location);
-
-            response.EnsureSuccessStatusCode();
-        }
+        response.EnsureSuccessStatusCode();
     }
 }

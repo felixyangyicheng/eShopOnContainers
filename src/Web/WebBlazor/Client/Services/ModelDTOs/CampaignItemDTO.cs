@@ -1,21 +1,20 @@
 ﻿using System;
 
-namespace WebBlazor.Client.Services.ModelDTOs
+namespace WebBlazor.Client.Services.ModelDTOs;
+
+public record CampaignItemDTO
 {
-    public record CampaignItemDTO
-    {
-        public int Id { get; init; }
+    public int Id { get; init; }
 
-        public string Name { get; init; }
+    public string Name { get; init; }
 
-        public string Description { get; init; }
+    public string Description { get; init; }
 
-        public DateTime From { get; init; }
+    public DateTime From { get; init; }
 
-        public DateTime To { get; init; }
+    public DateTime To { get; init; }
 
-        public string PictureUri { get; init; }
+    public string PictureUri { get; init; }
 
-        public string DetailsUri { get; init; }
-    }
+    public string DetailsUri { get; init; }
 }

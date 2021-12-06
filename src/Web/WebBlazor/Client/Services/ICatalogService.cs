@@ -2,14 +2,13 @@
 using System.Threading.Tasks;
 using WebBlazor.Client.Services.ModelDTOs;
 
-namespace WebBlazor.Client.Services
+namespace WebBlazor.Client.Services;
+
+public interface ICatalogService
 {
-    public interface ICatalogService
-    {
-        Task<CatalogDTO> GetCatalogItems(int page, int take, int? brand, int? type);
+    Task<CatalogDTO> GetCatalogItems(int page, int take, int? brand, int? type);
 
-        Task<IEnumerable<BrandDTO>> GetBrands();
+    Task<IEnumerable<BrandDTO>> GetBrands();
 
-        Task<IEnumerable<TypeDTO>> GetTypes();
-    }
+    Task<IEnumerable<TypeDTO>> GetTypes();
 }

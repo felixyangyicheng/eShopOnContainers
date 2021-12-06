@@ -1,10 +1,9 @@
 ﻿
-namespace WebBlazor.Client.Pages.Orders
-{
-    public record HubMessage
-    {
-        public int OrderId { get; init; }
+namespace WebBlazor.Client.Pages.Orders;
 
-        public string Status { get; init; }
-    }
+public record HubMessage
+{
+    public int OrderId { get; init; }
+
+    public string Status { get; init; }
 }

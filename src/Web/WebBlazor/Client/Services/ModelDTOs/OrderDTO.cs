@@ -7,78 +7,77 @@ using System.Text.Json.Serialization;
 using WebBlazor.Client.Services.ModelDTOs.Annotations;
 using WebBlazor.Client.Services.ModelDTOs.Converters;
 
-namespace WebBlazor.Client.Services.ModelDTOs
+namespace WebBlazor.Client.Services.ModelDTOs;
+
+public class OrderDTO
 {
-    public class OrderDTO
+    [JsonConverter(typeof(NumberToStringConverter))]
+    public string OrderNumber { get; set; }
+
+    public DateTime Date { get; set; }
+
+    public string Status { get; set; }
+
+    public decimal Total { get; set; }
+
+    public string Description { get; set; }
+
+    [Required]
+    public string City { get; set; }
+
+    [Required]
+    public string Street { get; set; }
+
+    [Required]
+    public string State { get; set; }
+
+    [Required]
+    public string Country { get; set; }
+
+    public string ZipCode { get; set; }
+
+    [Required, DisplayName("Card number")]
+    public string CardNumber { get; set; }
+
+    [Required, DisplayName("Cardholder name")]
+    public string CardHolderName { get; set; }
+
+    public DateTime CardExpiration { get; set; }
+
+    [RegularExpression(@"(0[1-9]|1[0-2])\/[0-9]{2}", ErrorMessage = "Expiration should match a valid MM/YY value.")]
+    [CardExpiration(ErrorMessage = "The card is expired.")]
+    [Required, DisplayName("Card expiration")]
+    public string CardExpirationShort { get; set; }
+
+    [Required, DisplayName("Card security number")]
+    public string CardSecurityNumber { get; set; }
+
+    public int CardTypeId { get; set; }
+
+    public string Buyer { get; set; }
+
+    public Collection<OrderItemDTO> OrderItems { get; set; } = new();
+
+    [Required]
+    public Guid RequestId { get; set; }
+
+    public void CardExpirationShortFormat() =>
+        CardExpirationShort = CardExpiration.ToString("MM/yy", CultureInfo.InvariantCulture);
+
+    public void CardExpirationApiFormat()
     {
-        [JsonConverter(typeof(NumberToStringConverter))]
-        public string OrderNumber { get; set; }
+        var expirationSplit = CardExpirationShort.Split('/');
+        var month = expirationSplit[0];
+        var year = $"20{expirationSplit[1]}";
 
-        public DateTime Date { get; set; }
-
-        public string Status { get; set; }
-
-        public decimal Total { get; set; }
-
-        public string Description { get; set; }
-
-        [Required]
-        public string City { get; set; }
-
-        [Required]
-        public string Street { get; set; }
-
-        [Required]
-        public string State { get; set; }
-
-        [Required]
-        public string Country { get; set; }
-
-        public string ZipCode { get; set; }
-
-        [Required, DisplayName("Card number")]
-        public string CardNumber { get; set; }
-
-        [Required, DisplayName("Cardholder name")]
-        public string CardHolderName { get; set; }
-
-        public DateTime CardExpiration { get; set; }
-
-        [RegularExpression(@"(0[1-9]|1[0-2])\/[0-9]{2}", ErrorMessage = "Expiration should match a valid MM/YY value.")]
-        [CardExpiration(ErrorMessage = "The card is expired.")]
-        [Required, DisplayName("Card expiration")]
-        public string CardExpirationShort { get; set; }
-
-        [Required, DisplayName("Card security number")]
-        public string CardSecurityNumber { get; set; }
-
-        public int CardTypeId { get; set; }
-
-        public string Buyer { get; set; }
-
-        public Collection<OrderItemDTO> OrderItems { get; set; } = new();
-
-        [Required]
-        public Guid RequestId { get; set; }
-
-        public void CardExpirationShortFormat() =>
-            CardExpirationShort = CardExpiration.ToString("MM/yy", CultureInfo.InvariantCulture);
-
-        public void CardExpirationApiFormat()
-        {
-            var expirationSplit = CardExpirationShort.Split('/');
-            var month = expirationSplit[0];
-            var year = $"20{expirationSplit[1]}";
-
-            CardExpiration = new DateTime(int.Parse(year, CultureInfo.InvariantCulture), int.Parse(month, CultureInfo.InvariantCulture), 1);
-        }
-
-        public Collection<OrderProcessActionDTO> ActionCodeSelectList =>
-           GetActionCodesByCurrentState();
-
-        private Collection<OrderProcessActionDTO> GetActionCodesByCurrentState() =>
-            (Status?.ToLowerInvariant() == "paid") ?
-                new() { OrderProcessActionDTO.Ship } :
-                new();
+        CardExpiration = new DateTime(int.Parse(year, CultureInfo.InvariantCulture), int.Parse(month, CultureInfo.InvariantCulture), 1);
     }
+
+    public Collection<OrderProcessActionDTO> ActionCodeSelectList =>
+       GetActionCodesByCurrentState();
+
+    private Collection<OrderProcessActionDTO> GetActionCodesByCurrentState() =>
+        (Status?.ToLowerInvariant() == "paid") ?
+            new() { OrderProcessActionDTO.Ship } :
+            new();
 }

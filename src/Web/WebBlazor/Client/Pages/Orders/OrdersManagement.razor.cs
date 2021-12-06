@@ -7,36 +7,35 @@ using WebBlazor.Client.Extensions;
 using WebBlazor.Client.Services;
 using WebBlazor.Client.Services.ModelDTOs;
 
-namespace WebBlazor.Client.Pages.Orders
+namespace WebBlazor.Client.Pages.Orders;
+
+[Authorize]
+public partial class OrdersManagement
 {
-    [Authorize]
-    public partial class OrdersManagement
+    private List<OrderDTO> orders = new();
+    private string userId;
+
+    [Inject]
+    private IOrderingService OrderingService { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        private List<OrderDTO> orders = new();
-        private string userId;
+        userId = (await AuthenticationStateTask).User.GetSub();
+        await LoadData();
+    }
 
-        [Inject]
-        private IOrderingService OrderingService { get; set; }
+    private async Task LoadData() =>
+        orders = await OrderingService.GetMyOrders(userId);
 
-        [CascadingParameter]
-        private Task<AuthenticationState> AuthenticationStateTask { get; set; }
-
-        protected override async Task OnInitializedAsync()
+    private async Task OrderProcess(string orderId, ChangeEventArgs e)
+    {
+        if (OrderProcessActionDTO.Ship.Code == e.Value.ToString())
         {
-            userId = (await AuthenticationStateTask).User.GetSub();
+            await OrderingService.ShipOrder(orderId);
             await LoadData();
-        }
-
-        private async Task LoadData() =>
-            orders = await OrderingService.GetMyOrders(userId);
-
-        private async Task OrderProcess(string orderId, ChangeEventArgs e)
-        {
-            if (OrderProcessActionDTO.Ship.Code == e.Value.ToString())
-            {
-                await OrderingService.ShipOrder(orderId);
-                await LoadData();
-            }
         }
     }
 }

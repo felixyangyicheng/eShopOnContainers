@@ -11,139 +11,138 @@ using System.Threading.Tasks;
 using WebBlazor.Client.Infrastructure;
 using WebBlazor.Client.Services.ModelDTOs;
 
-namespace WebBlazor.Client.Services
+namespace WebBlazor.Client.Services;
+
+public class BasketService : IBasketService
 {
-    public class BasketService : IBasketService
+    private readonly HttpClient _httpClient;
+    private readonly ILogger<BasketService> _logger;
+    private readonly IEventService _eventService;
+    private readonly string _basketByPassUrl;
+    private readonly string _purchaseUrl;
+
+    public BasketService(HttpClient httpClient, IConfiguration configuration, ILogger<BasketService> logger, IEventService eventService)
     {
-        private readonly HttpClient _httpClient;
-        private readonly ILogger<BasketService> _logger;
-        private readonly IEventService _eventService;
-        private readonly string _basketByPassUrl;
-        private readonly string _purchaseUrl;
+        _httpClient = httpClient;
+        _logger = logger;
+        _eventService = eventService;
 
-        public BasketService(HttpClient httpClient, IConfiguration configuration, ILogger<BasketService> logger, IEventService eventService)
+        _basketByPassUrl = $"{configuration["PurchaseUrl"]}/b/api/v1/basket";
+        _purchaseUrl = $"{configuration["PurchaseUrl"]}/api/v1";
+    }
+
+    public async Task<BasketDTO> GetBasket(string userId)
+    {
+        var uri = API.Basket.GetBasket(_basketByPassUrl, userId);
+        _logger.LogDebug("[GetBasket] -> Calling {Uri} to get the basket", uri);
+
+        var response = await _httpClient.GetAsync(new Uri(uri));
+        _logger.LogDebug("[GetBasket] -> response code {StatusCode}", response.StatusCode);
+
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        return string.IsNullOrEmpty(responseString) ?
+            new() { BuyerId = userId } :
+            JsonSerializer.Deserialize<BasketDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+    }
+
+    public async Task AddItemToBasket(string userId, int productId)
+    {
+        var uri = API.Purchase.AddItemToBasket(_purchaseUrl);
+
+        var newItem = new
         {
-            _httpClient = httpClient;
-            _logger = logger;
-            _eventService = eventService;
+            CatalogItemId = productId,
+            BasketId = userId,
+            Quantity = 1
+        };
 
-            _basketByPassUrl = $"{configuration["PurchaseUrl"]}/b/api/v1/basket";
-            _purchaseUrl = $"{configuration["PurchaseUrl"]}/api/v1";
+        using var basketContent = new StringContent(JsonSerializer.Serialize(newItem), Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync(new Uri(uri), basketContent);
+
+        response.EnsureSuccessStatusCode();
+
+        if (response.StatusCode == HttpStatusCode.OK)
+        {
+            await _eventService.OnBasketUpdated(userId);
+        }
+    }
+
+    public async Task<BasketDTO> SetQuantities(string userId, Dictionary<string, int> quantities)
+    {
+        var uri = API.Purchase.UpdateBasketItem(_purchaseUrl);
+
+        var basketUpdate = new
+        {
+            BasketId = userId,
+            Updates = quantities.Select(kvp => new
+            {
+                BasketItemId = kvp.Key,
+                NewQty = kvp.Value
+            }).ToArray()
+        };
+
+        using var basketContent = new StringContent(JsonSerializer.Serialize(basketUpdate), Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PutAsync(new Uri(uri), basketContent);
+
+        response.EnsureSuccessStatusCode();
+
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        return JsonSerializer.Deserialize<BasketDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+    }
+
+    public async Task<BasketDTO> UpdateBasket(BasketDTO basket)
+    {
+        if (basket is null)
+        {
+            throw new ArgumentNullException(nameof(basket));
         }
 
-        public async Task<BasketDTO> GetBasket(string userId)
+        var uri = API.Basket.UpdateBasket(_basketByPassUrl);
+
+        using var basketContent = new StringContent(JsonSerializer.Serialize(basket), Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync(new Uri(uri), basketContent);
+
+        response.EnsureSuccessStatusCode();
+
+        if (response.StatusCode == HttpStatusCode.OK)
         {
-            var uri = API.Basket.GetBasket(_basketByPassUrl, userId);
-            _logger.LogDebug("[GetBasket] -> Calling {Uri} to get the basket", uri);
-
-            var response = await _httpClient.GetAsync(new Uri(uri));
-            _logger.LogDebug("[GetBasket] -> response code {StatusCode}", response.StatusCode);
-
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            return string.IsNullOrEmpty(responseString) ?
-                new() { BuyerId = userId } :
-                JsonSerializer.Deserialize<BasketDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            await _eventService.OnBasketUpdated(basket.BuyerId);
         }
 
-        public async Task AddItemToBasket(string userId, int productId)
+        return basket;
+    }
+
+    public async Task<OrderDTO> GetOrderDraft(string basketId)
+    {
+        var uri = API.Purchase.GetOrderDraft(_purchaseUrl, basketId);
+
+        var responseString = await _httpClient.GetStringAsync(new Uri(uri));
+
+        var response = JsonSerializer.Deserialize<OrderDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        return response;
+    }
+
+    public async Task Checkout(BasketCheckoutDTO basket)
+    {
+        var uri = API.Basket.CheckoutBasket(_basketByPassUrl);
+
+        using var basketContent = new StringContent(JsonSerializer.Serialize(basket), Encoding.UTF8, "application/json");
+
+        _logger.LogInformation("Uri checkout {uri}", uri);
+
+        var response = await _httpClient.PostAsync(new Uri(uri), basketContent);
+
+        response.EnsureSuccessStatusCode();
+
+        if (response.StatusCode == HttpStatusCode.Accepted)
         {
-            var uri = API.Purchase.AddItemToBasket(_purchaseUrl);
-
-            var newItem = new
-            {
-                CatalogItemId = productId,
-                BasketId = userId,
-                Quantity = 1
-            };
-
-            using var basketContent = new StringContent(JsonSerializer.Serialize(newItem), Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PostAsync(new Uri(uri), basketContent);
-
-            response.EnsureSuccessStatusCode();
-
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                await _eventService.OnBasketUpdated(userId);
-            }
-        }
-
-        public async Task<BasketDTO> SetQuantities(string userId, Dictionary<string, int> quantities)
-        {
-            var uri = API.Purchase.UpdateBasketItem(_purchaseUrl);
-
-            var basketUpdate = new
-            {
-                BasketId = userId,
-                Updates = quantities.Select(kvp => new
-                {
-                    BasketItemId = kvp.Key,
-                    NewQty = kvp.Value
-                }).ToArray()
-            };
-
-            using var basketContent = new StringContent(JsonSerializer.Serialize(basketUpdate), Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PutAsync(new Uri(uri), basketContent);
-
-            response.EnsureSuccessStatusCode();
-
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<BasketDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        }
-
-        public async Task<BasketDTO> UpdateBasket(BasketDTO basket)
-        {
-            if (basket is null)
-            {
-                throw new ArgumentNullException(nameof(basket));
-            }
-
-            var uri = API.Basket.UpdateBasket(_basketByPassUrl);
-
-            using var basketContent = new StringContent(JsonSerializer.Serialize(basket), Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PostAsync(new Uri(uri), basketContent);
-
-            response.EnsureSuccessStatusCode();
-
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                await _eventService.OnBasketUpdated(basket.BuyerId);
-            }
-
-            return basket;
-        }
-
-        public async Task<OrderDTO> GetOrderDraft(string basketId)
-        {
-            var uri = API.Purchase.GetOrderDraft(_purchaseUrl, basketId);
-
-            var responseString = await _httpClient.GetStringAsync(new Uri(uri));
-
-            var response = JsonSerializer.Deserialize<OrderDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-            return response;
-        }
-
-        public async Task Checkout(BasketCheckoutDTO basket)
-        {
-            var uri = API.Basket.CheckoutBasket(_basketByPassUrl);
-
-            using var basketContent = new StringContent(JsonSerializer.Serialize(basket), Encoding.UTF8, "application/json");
-
-            _logger.LogInformation("Uri checkout {uri}", uri);
-
-            var response = await _httpClient.PostAsync(new Uri(uri), basketContent);
-
-            response.EnsureSuccessStatusCode();
-
-            if (response.StatusCode == HttpStatusCode.Accepted)
-            {
-                _eventService.OnOrderCreated();
-            }
+            _eventService.OnOrderCreated();
         }
     }
 }

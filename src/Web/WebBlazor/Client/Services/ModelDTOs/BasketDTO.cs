@@ -2,15 +2,14 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace WebBlazor.Client.Services.ModelDTOs
+namespace WebBlazor.Client.Services.ModelDTOs;
+
+public record BasketDTO
 {
-    public record BasketDTO
-    {
-        public Collection<BasketItemDTO> Items { get; init; } = new();
+    public Collection<BasketItemDTO> Items { get; init; } = new();
 
-        public string BuyerId { get; init; }
+    public string BuyerId { get; init; }
 
-        public decimal Total() =>
-            Math.Round(Items.Sum(x => x.UnitPrice * x.Quantity), 2);
-    }
+    public decimal Total() =>
+        Math.Round(Items.Sum(x => x.UnitPrice * x.Quantity), 2);
 }

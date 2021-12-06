@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace WebBlazor.Client.Pages.Authentication
+namespace WebBlazor.Client.Pages.Authentication;
+
+public partial class Authentication
 {
-    public partial class Authentication
-    {
-        [Parameter]
-        public string Action { get; set; }
-    }
+    [Parameter]
+    public string Action { get; set; }
 }

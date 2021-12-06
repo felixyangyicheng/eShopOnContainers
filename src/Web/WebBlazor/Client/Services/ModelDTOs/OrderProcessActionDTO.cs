@@ -1,22 +1,21 @@
 ﻿
-namespace WebBlazor.Client.Services.ModelDTOs
+namespace WebBlazor.Client.Services.ModelDTOs;
+
+public record OrderProcessActionDTO
 {
-    public record OrderProcessActionDTO
+    public string Code { get; }
+
+    public string Name { get; }
+
+    internal static OrderProcessActionDTO Ship = new(nameof(Ship).ToLowerInvariant(), "Ship");
+
+    protected OrderProcessActionDTO()
     {
-        public string Code { get; }
+    }
 
-        public string Name { get; }
-
-        internal static OrderProcessActionDTO Ship = new(nameof(Ship).ToLowerInvariant(), "Ship");
-
-        protected OrderProcessActionDTO()
-        {
-        }
-
-        public OrderProcessActionDTO(string code, string name)
-        {
-            Code = code;
-            Name = name;
-        }
+    public OrderProcessActionDTO(string code, string name)
+    {
+        Code = code;
+        Name = name;
     }
 }

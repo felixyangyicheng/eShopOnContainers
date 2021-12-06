@@ -1,31 +1,30 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebBlazor.Client.Services.ModelDTOs.Annotations
+namespace WebBlazor.Client.Services.ModelDTOs.Annotations;
+
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
+public sealed class CardExpirationAttribute : ValidationAttribute
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public sealed class CardExpirationAttribute : ValidationAttribute
+    public override bool IsValid(object value)
     {
-        public override bool IsValid(object value)
+        if (value == null)
         {
-            if (value == null)
-            {
-                return false;
-            }
+            return false;
+        }
 
-            var valueSplit = value.ToString().Split('/');
-            var monthString = valueSplit[0];
-            var yearString = $"20{valueSplit[1]}";
+        var valueSplit = value.ToString().Split('/');
+        var monthString = valueSplit[0];
+        var yearString = $"20{valueSplit[1]}";
 
-            if (int.TryParse(monthString, out var month) && int.TryParse(yearString, out var year))
-            {
-                var date = new DateTime(year, month, 1);
-                return date > DateTime.UtcNow;
-            }
-            else
-            {
-                return false;
-            }
+        if (int.TryParse(monthString, out var month) && int.TryParse(yearString, out var year))
+        {
+            var date = new DateTime(year, month, 1);
+            return date > DateTime.UtcNow;
+        }
+        else
+        {
+            return false;
         }
     }
 }

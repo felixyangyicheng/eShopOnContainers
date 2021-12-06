@@ -1,41 +1,40 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebBlazor.Client.Services.ModelDTOs
+namespace WebBlazor.Client.Services.ModelDTOs;
+
+public record BasketCheckoutDTO
 {
-    public record BasketCheckoutDTO
-    {
-        [Required]
-        public string City { get; init; }
+    [Required]
+    public string City { get; init; }
 
-        [Required]
-        public string Street { get; init; }
+    [Required]
+    public string Street { get; init; }
 
-        [Required]
-        public string State { get; init; }
+    [Required]
+    public string State { get; init; }
 
-        [Required]
-        public string Country { get; init; }
+    [Required]
+    public string Country { get; init; }
 
-        public string ZipCode { get; init; }
+    public string ZipCode { get; init; }
 
-        [Required]
-        public string CardNumber { get; init; }
+    [Required]
+    public string CardNumber { get; init; }
 
-        [Required]
-        public string CardHolderName { get; init; }
+    [Required]
+    public string CardHolderName { get; init; }
 
-        [Required]
-        public DateTime CardExpiration { get; init; }
+    [Required]
+    public DateTime CardExpiration { get; init; }
 
-        [Required]
-        public string CardSecurityNumber { get; init; }
+    [Required]
+    public string CardSecurityNumber { get; init; }
 
-        public int CardTypeId { get; init; }
+    public int CardTypeId { get; init; }
 
-        public string Buyer { get; init; }
+    public string Buyer { get; init; }
 
-        [Required]
-        public Guid RequestId { get; init; }
-    }
+    [Required]
+    public Guid RequestId { get; init; }
 }

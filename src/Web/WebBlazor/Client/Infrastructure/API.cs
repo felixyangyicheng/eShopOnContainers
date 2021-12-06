@@ -1,92 +1,91 @@
 ﻿using System.Globalization;
 
-namespace WebBlazor.Client.Infrastructure
+namespace WebBlazor.Client.Infrastructure;
+
+public static class API
 {
-    public static class API
+    internal static class Catalog
     {
-        internal static class Catalog
+        public static string GetAllCatalogItems(string baseUri, int page, int take, int? brand, int? type)
         {
-            public static string GetAllCatalogItems(string baseUri, int page, int take, int? brand, int? type)
+            string filterQs;
+
+            if (type.HasValue)
             {
-                string filterQs;
-
-                if (type.HasValue)
-                {
-                    var brandQs = brand.HasValue ? brand.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                    filterQs = $"/type/{type.Value}/brand/{brandQs}";
-                }
-                else if (brand.HasValue)
-                {
-                    var brandQs = brand.HasValue ? brand.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                    filterQs = $"/type/all/brand/{brandQs}";
-                }
-                else
-                {
-                    filterQs = string.Empty;
-                }
-
-                return $"{baseUri}items{filterQs}?pageIndex={page}&pageSize={take}";
+                var brandQs = brand.HasValue ? brand.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                filterQs = $"/type/{type.Value}/brand/{brandQs}";
+            }
+            else if (brand.HasValue)
+            {
+                var brandQs = brand.HasValue ? brand.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                filterQs = $"/type/all/brand/{brandQs}";
+            }
+            else
+            {
+                filterQs = string.Empty;
             }
 
-            public static string GetAllBrands(string baseUri) =>
-                $"{baseUri}catalogBrands";
-
-            public static string GetAllTypes(string baseUri) =>
-                $"{baseUri}catalogTypes";
+            return $"{baseUri}items{filterQs}?pageIndex={page}&pageSize={take}";
         }
 
-        internal static class Basket
-        {
-            public static string GetBasket(string baseUri, string basketId) =>
-                $"{baseUri}/{basketId}";
+        public static string GetAllBrands(string baseUri) =>
+            $"{baseUri}catalogBrands";
 
-            public static string UpdateBasket(string baseUri) =>
-                baseUri;
+        public static string GetAllTypes(string baseUri) =>
+            $"{baseUri}catalogTypes";
+    }
 
-            public static string CheckoutBasket(string baseUri) =>
-                $"{baseUri}/checkout";
-        }
+    internal static class Basket
+    {
+        public static string GetBasket(string baseUri, string basketId) =>
+            $"{baseUri}/{basketId}";
 
-        internal static class Purchase
-        {
-            public static string AddItemToBasket(string baseUri) =>
-                $"{baseUri}/basket/items";
+        public static string UpdateBasket(string baseUri) =>
+            baseUri;
 
-            public static string UpdateBasketItem(string baseUri) =>
-                $"{baseUri}/basket/items";
+        public static string CheckoutBasket(string baseUri) =>
+            $"{baseUri}/checkout";
+    }
 
-            public static string GetOrderDraft(string baseUri, string basketId) =>
-                $"{baseUri}/order/draft/{basketId}";
-        }
+    internal static class Purchase
+    {
+        public static string AddItemToBasket(string baseUri) =>
+            $"{baseUri}/basket/items";
 
-        internal static class Marketing
-        {
-            public static string GetAllCampaigns(string baseUri, int take, int page) =>
-                $"{baseUri}user?pageSize={take}&pageIndex={page}";
+        public static string UpdateBasketItem(string baseUri) =>
+            $"{baseUri}/basket/items";
 
-            public static string GetCampaignById(string baseUri, int id) =>
-                $"{baseUri}{id}";
-        }
+        public static string GetOrderDraft(string baseUri, string basketId) =>
+            $"{baseUri}/order/draft/{basketId}";
+    }
 
-        internal static class Locations
-        {
-            public static string CreateOrUpdateUserLocation(string baseUri) =>
-                baseUri;
-        }
+    internal static class Marketing
+    {
+        public static string GetAllCampaigns(string baseUri, int take, int page) =>
+            $"{baseUri}user?pageSize={take}&pageIndex={page}";
 
-        internal static class Order
-        {
-            public static string GetAllMyOrders(string baseUri) =>
-                baseUri;
+        public static string GetCampaignById(string baseUri, int id) =>
+            $"{baseUri}{id}";
+    }
 
-            public static string CancelOrder(string baseUri) =>
-                $"{baseUri}/cancel";
+    internal static class Locations
+    {
+        public static string CreateOrUpdateUserLocation(string baseUri) =>
+            baseUri;
+    }
 
-            public static string GetOrder(string baseUri, string orderId) =>
-                $"{baseUri}/{orderId}";
+    internal static class Order
+    {
+        public static string GetAllMyOrders(string baseUri) =>
+            baseUri;
 
-            public static string ShipOrder(string baseUri) =>
-                $"{baseUri}/ship";
-        }
+        public static string CancelOrder(string baseUri) =>
+            $"{baseUri}/cancel";
+
+        public static string GetOrder(string baseUri, string orderId) =>
+            $"{baseUri}/{orderId}";
+
+        public static string ShipOrder(string baseUri) =>
+            $"{baseUri}/ship";
     }
 }

@@ -8,76 +8,75 @@ using WebBlazor.Client.Extensions;
 using WebBlazor.Client.Services;
 using WebBlazor.Client.Services.ModelDTOs;
 
-namespace WebBlazor.Client.Pages.Basket
+namespace WebBlazor.Client.Pages.Basket;
+
+[Authorize]
+public partial class Basket
 {
-    [Authorize]
-    public partial class Basket
+    private bool errorUpdate;
+    private BasketDTO basket = new();
+    private string userId;
+
+    [Inject]
+    private IBasketService BasketService { get; set; }
+
+    [Inject]
+    private NavigationManager Navigation { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+    private bool HasItemWithInvalidQuantity =>
+        basket.Items.Any(x => x.Quantity < 1);
+
+    protected override async Task OnInitializedAsync()
     {
-        private bool errorUpdate;
-        private BasketDTO basket = new();
-        private string userId;
-        
-        [Inject]
-        private IBasketService BasketService { get; set; }
+        userId = (await AuthenticationStateTask).User.GetSub();
+        basket = await BasketService.GetBasket(userId);
+    }
 
-        [Inject]
-        private NavigationManager Navigation { get; set; }
-
-        [CascadingParameter]
-        private Task<AuthenticationState> AuthenticationStateTask { get; set; }
-
-        private bool HasItemWithInvalidQuantity =>
-            basket.Items.Any(x => x.Quantity < 1);
-
-        protected override async Task OnInitializedAsync()
+    private async Task<bool> Update()
+    {
+        try
         {
-            userId = (await AuthenticationStateTask).User.GetSub();
-            basket = await BasketService.GetBasket(userId);
-        }
-
-        private async Task<bool> Update()
-        {
-            try
+            if (HasItemWithInvalidQuantity)
             {
-                if (HasItemWithInvalidQuantity)
-                {
-                    errorUpdate = false;
-                    return false;
-                }
-                await BasketService.UpdateBasket(basket);
                 errorUpdate = false;
-                return true;
-            }
-            catch (Exception)
-            {
-                errorUpdate = true;
                 return false;
             }
+            await BasketService.UpdateBasket(basket);
+            errorUpdate = false;
+            return true;
         }
-
-        private async Task CheckOut()
+        catch (Exception)
         {
-            if (await Update())
-            {
-                Navigation.NavigateTo("ordersnew");
-            }
+            errorUpdate = true;
+            return false;
         }
+    }
 
-        private async Task ItemQuantityChanged(BasketItemDTO item, int quantity)
+    private async Task CheckOut()
+    {
+        if (await Update())
         {
-            item.Quantity = quantity > 0 ? quantity : 1;
-            await Update();
+            Navigation.NavigateTo("ordersnew");
         }
+    }
 
-        private async Task DeleteItem(string id)
+    private async Task ItemQuantityChanged(BasketItemDTO item, int quantity)
+    {
+        item.Quantity = quantity > 0 ? quantity : 1;
+        await Update();
+    }
+
+    private async Task DeleteItem(string id)
+    {
+        var itemToRemove = basket.Items.FirstOrDefault(x => x.Id == id);
+        if (itemToRemove == null)
         {
-            var itemToRemove = basket.Items.FirstOrDefault(x => x.Id == id);
-            if (itemToRemove == null)
-            {
-                return;
-            }
-            basket.Items.Remove(itemToRemove);
-            await Update();
+            return;
         }
+        basket.Items.Remove(itemToRemove);
+        await Update();
     }
 }

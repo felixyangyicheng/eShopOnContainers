@@ -1,15 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace WebBlazor.Client.Services.ModelDTOs
+namespace WebBlazor.Client.Services.ModelDTOs;
+
+public record CatalogDTO
 {
-    public record CatalogDTO
-    {
-        public int PageIndex { get; init; }
+    public int PageIndex { get; init; }
 
-        public int PageSize { get; init; }
+    public int PageSize { get; init; }
 
-        public int Count { get; init; }
+    public int Count { get; init; }
 
-        public Collection<CatalogItemDTO> Data { get; init; }
-    }
+    public Collection<CatalogItemDTO> Data { get; init; }
 }
