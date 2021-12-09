@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace WebBlazor.Client.Services.ModelDTOs;
 
 public record BasketCheckoutDTO

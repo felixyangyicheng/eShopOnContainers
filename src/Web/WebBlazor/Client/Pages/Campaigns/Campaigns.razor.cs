@@ -1,14 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Configuration;
-using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using WebBlazor.Client.Services;
-using WebBlazor.Client.Services.ModelDTOs;
-using WebBlazor.Client.Shared.Models;
-
+﻿
 namespace WebBlazor.Client.Pages.Campaigns;
 
 [Authorize]

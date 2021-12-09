@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Text.Json.Serialization;
-using WebBlazor.Client.Services.ModelDTOs.Annotations;
-using WebBlazor.Client.Services.ModelDTOs.Converters;
-
+﻿
 namespace WebBlazor.Client.Services.ModelDTOs;
 
 public class OrderDTO

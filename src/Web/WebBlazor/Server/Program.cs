@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using System.IO;
-using WebBlazor.Server;
-
+﻿
 BuildWebHost(args).Run();
 
 static IWebHost BuildWebHost(string[] args) =>

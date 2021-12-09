@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using WebBlazor.Client.Services.ModelDTOs.Annotations;
-
+﻿
 namespace WebBlazor.Client.Services.ModelDTOs;
 
 public class LocationDTO

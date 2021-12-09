@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
+﻿
 namespace WebBlazor.Client.Pages.Home;
 
 [Route("/")]

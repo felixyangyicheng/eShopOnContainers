@@ -1,16 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using WebBlazor.Client.Infrastructure;
-using WebBlazor.Client.Services.ModelDTOs;
-
+﻿
 namespace WebBlazor.Client.Services;
 
 public class BasketService : IBasketService

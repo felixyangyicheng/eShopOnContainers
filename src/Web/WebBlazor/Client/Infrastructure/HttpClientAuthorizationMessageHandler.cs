@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using Microsoft.Extensions.Configuration;
-
+﻿
 namespace WebBlazor.Client.Infrastructure;
 
 public class HttpClientAuthorizationMessageHandler : AuthorizationMessageHandler

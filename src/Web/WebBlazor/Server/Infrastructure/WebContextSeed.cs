@@ -1,15 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using WebBlazor.Shared;
-
+﻿
 namespace WebBlazor.Server.Infrastructure;
+
+using Microsoft.Extensions.Logging;
 
 public class WebContextSeed
 {

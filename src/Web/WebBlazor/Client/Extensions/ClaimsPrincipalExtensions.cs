@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-
+﻿
 namespace WebBlazor.Client.Extensions;
 
 static class ClaimsPrincipalExtensions

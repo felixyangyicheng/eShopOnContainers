@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using WebBlazor.Client.Infrastructure;
-using WebBlazor.Client.Services.ModelDTOs;
-
+﻿
 namespace WebBlazor.Client.Services;
 
 public class LocationService : ILocationService

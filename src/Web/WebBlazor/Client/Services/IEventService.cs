@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
+﻿
 namespace WebBlazor.Client.Services;
 
 public interface IEventService

@@ -1,17 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using WebBlazor.Client.Extensions;
-using WebBlazor.Client.Infrastructure;
-using WebBlazor.Client.Services.ModelDTOs;
-
+﻿
 namespace WebBlazor.Client.Services;
 
 public class OrderingService : IOrderingService

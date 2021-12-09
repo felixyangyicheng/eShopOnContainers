@@ -1,17 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.Configuration;
-using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using WebBlazor.Client.Extensions;
-using WebBlazor.Client.Services;
-using WebBlazor.Client.Services.ModelDTOs;
-
+﻿
 namespace WebBlazor.Client.Pages.Orders;
 
 [Authorize]

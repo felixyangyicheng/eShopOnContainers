@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using WebBlazor.Client.Infrastructure;
-using WebBlazor.Client.Services;
-
+﻿
 namespace WebBlazor.Client.Extensions;
 
 static class ServiceCollectionExtensions

@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-
+﻿
 namespace WebBlazor.Client.Infrastructure;
 
 public static class API

@@ -1,15 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using WebBlazor.Client.Extensions;
-using WebBlazor.Client.Services;
-using WebBlazor.Client.Services.ModelDTOs;
-using WebBlazor.Client.Shared.Models;
-
+﻿
 namespace WebBlazor.Client.Pages.Catalog;
 
 public partial class Catalog

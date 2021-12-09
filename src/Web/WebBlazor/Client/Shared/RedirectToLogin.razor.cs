@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System;
-
+﻿
 namespace WebBlazor.Client.Shared;
 
 public partial class RedirectToLogin : ComponentBase

@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using System.Threading.Tasks;
-
+﻿
 namespace WebBlazor.Client.Shared;
 
 public partial class LoginDisplay

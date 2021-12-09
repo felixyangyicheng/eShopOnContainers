@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
+﻿
 namespace WebBlazor.Client.Infrastructure;
 
 public class HttpClientRequestIdDelegatingHandler : DelegatingHandler

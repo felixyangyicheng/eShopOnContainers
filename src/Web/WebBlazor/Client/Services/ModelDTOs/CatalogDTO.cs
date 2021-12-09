@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
+﻿
 namespace WebBlazor.Client.Services.ModelDTOs;
 
 public record CatalogDTO

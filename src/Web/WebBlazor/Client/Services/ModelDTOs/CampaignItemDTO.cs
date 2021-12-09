@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace WebBlazor.Client.Services.ModelDTOs;
 
 public record CampaignItemDTO

@@ -1,14 +1,3 @@
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using WebBlazor.Client.Extensions;
-using WebBlazor.Client.Services;
-using WebBlazor.Shared;
 
 namespace WebBlazor.Client;
 

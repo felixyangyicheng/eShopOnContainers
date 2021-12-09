@@ -1,13 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using WebBlazor.Client.Extensions;
-using WebBlazor.Client.Services;
-using WebBlazor.Client.Services.ModelDTOs;
-
+﻿
 namespace WebBlazor.Client.Pages.Basket;
 
 [Authorize]
