@@ -18,7 +18,6 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
 # Create this "restore-solution" section by running ./Create-DockerfileSolutionRestore.ps1, to optimize build cache reuse
-RUN dotnet workload install wasm-tools
 
 COPY "eShopOnContainers-ServicesAndWebApps.sln" "eShopOnContainers-ServicesAndWebApps.sln"
 
@@ -60,7 +59,7 @@ COPY "docker-compose.dcproj" "docker-compose.dcproj"
 
 COPY "NuGet.config" "NuGet.config"
 
-RUN dotnet restore "eShopOnContainers-ServicesAndWebApps.sln"
+RUN dotnet restore "eShopOnContainers-ServicesAndWebApps.sln" -rp:RunAOTCompilation=false
 
 COPY . .
 COPY --from=node-build /web/wwwroot /src/Web/WebSPA/wwwroot/

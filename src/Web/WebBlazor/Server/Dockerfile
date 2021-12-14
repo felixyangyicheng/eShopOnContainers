@@ -7,10 +7,10 @@ WORKDIR /src
 
 RUN apt-get update
 RUN apt-get install --no-install-recommends --yes python3
+RUN dotnet workload install wasm-tools
 
 # It's important to keep lines from here down to "COPY . ." identical in all Dockerfiles
 # to take advantage of Docker's build cache, to speed up local container builds
-RUN dotnet workload install wasm-tools
 
 COPY "eShopOnContainers-ServicesAndWebApps.sln" "eShopOnContainers-ServicesAndWebApps.sln"
 
@@ -52,11 +52,11 @@ COPY "docker-compose.dcproj" "docker-compose.dcproj"
 
 COPY "NuGet.config" "NuGet.config"
 
-RUN dotnet restore "eShopOnContainers-ServicesAndWebApps.sln"
+RUN dotnet restore "eShopOnContainers-ServicesAndWebApps.sln" -rp:RunAOTCompilation=false
 
 COPY . .
 WORKDIR /src/Web/WebBlazor/Server
-RUN dotnet publish --no-restore -c Release -o /app
+RUN dotnet publish --no-restore -c Release -o /app -rp:RunAOTCompilation=true
 
 FROM build AS publish
 
