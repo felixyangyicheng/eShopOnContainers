@@ -1,11 +1,11 @@
 ﻿namespace Microsoft.eShopOnContainers.Services.Ordering.API.Application.Behaviors;
 
-public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly ILogger<ValidatorBehavior<TRequest, TResponse>> _logger;
-    private readonly IValidator<TRequest>[] _validators;
+    private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-    public ValidatorBehavior(IValidator<TRequest>[] validators, ILogger<ValidatorBehavior<TRequest, TResponse>> logger)
+    public ValidatorBehavior(IEnumerable<IValidator<TRequest>> validators, ILogger<ValidatorBehavior<TRequest, TResponse>> logger)
     {
         _validators = validators;
         _logger = logger;
