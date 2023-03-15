@@ -21,8 +21,7 @@ public class Startup
             .AddCustomAuthentication(Configuration)
             .AddTransient<IWebhooksClient, WebhooksClient>()
             .AddSingleton<IHooksRepository, InMemoryHooksRepository>()
-            .AddMvc()
-            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            .AddMvc();
 
         services.AddControllers();
     }
@@ -122,7 +121,7 @@ static class ServiceExtensions
             options.SignedOutRedirectUri = callBackUrl.ToString();
             options.ClientId = "webhooksclient";
             options.ClientSecret = "secret";
-            options.ResponseType = "code id_token";
+            options.ResponseType = "code";
             options.SaveTokens = true;
             options.GetClaimsFromUserInfoEndpoint = true;
             options.RequireHttpsMetadata = false;

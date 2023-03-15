@@ -22,8 +22,6 @@ public class Startup
 
         IdentityModelEventSource.ShowPII = true;       // Caution! Do NOT use in production: https://aka.ms/IdentityModel/PII
 
-        services.AddControllers();
-
         services.AddCustomAuthentication(Configuration);
     }
 
@@ -163,17 +161,17 @@ static class ServiceCollectionExtensions
         services.AddAuthentication(options =>
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
         })
         .AddCookie(setup => setup.ExpireTimeSpan = TimeSpan.FromMinutes(sessionCookieLifetime))
-        .AddOpenIdConnect(options =>
+        .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
         {
             options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             options.Authority = identityUrl.ToString();
             options.SignedOutRedirectUri = callBackUrl.ToString();
             options.ClientId = "mvc";
             options.ClientSecret = "secret";
-            options.ResponseType = "code id_token";
+            options.ResponseType = "code";
             options.SaveTokens = true;
             options.GetClaimsFromUserInfoEndpoint = true;
             options.RequireHttpsMetadata = false;
@@ -183,6 +181,7 @@ static class ServiceCollectionExtensions
             options.Scope.Add("basket");
             options.Scope.Add("webshoppingagg");
             options.Scope.Add("orders.signalrhub");
+            options.Scope.Add("webhooks");
         });
 
         return services;

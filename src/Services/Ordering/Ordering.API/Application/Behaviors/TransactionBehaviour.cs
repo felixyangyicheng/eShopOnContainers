@@ -17,7 +17,7 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
         _logger = logger ?? throw new ArgumentException(nameof(ILogger));
     }
 
-    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var response = default(TResponse);
         var typeName = request.GetGenericTypeName();
@@ -35,7 +35,7 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
             {
                 Guid transactionId;
 
-                using var transaction = await _dbContext.BeginTransactionAsync();
+                await using var transaction = await _dbContext.BeginTransactionAsync();
                 using (LogContext.PushProperty("TransactionContext", transaction.TransactionId))
                 {
                     _logger.LogInformation("----- Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
