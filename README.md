@@ -44,13 +44,13 @@ Web SPA :  http://host.docker.internal:5104/
 
 ![](img/eshop-blazor-spa-app.png)
 
-This fork adds a Blazor WebAssembly AOT compiled web client, available at:
+This fork adds a Blazor WebAssembly web client, available at:
 
 ```
 Web SPA - Blazor : http://host.docker.internal:5106
 ```
 
-Or when deployed to local Kubernetes, at:
+Or when deployed to local Kubernetes (AOT compiled), at:
 
 ```
 Web SPA - Blazor : http://localhost/webblazor
