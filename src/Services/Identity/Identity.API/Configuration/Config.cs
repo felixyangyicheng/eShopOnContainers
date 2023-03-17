@@ -75,10 +75,10 @@
                     ClientName = "eShop Blazor OpenId Client",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
-                    RedirectUris =           { $"{clientsUrl["Blazor"]}/authentication/login-callback" },
+                    RedirectUris =           { $"{configuration["BlazorClient"]}/authentication/login-callback" },
                     RequireConsent = false,
-                    PostLogoutRedirectUris = { $"{clientsUrl["Blazor"]}/" },
-                    AllowedCorsOrigins = { clientsUrl["Blazor"].Contains("localhost") ? clientsUrl["Blazor"][..(clientsUrl["Blazor"].IndexOf("localhost") + 9)] : clientsUrl["Blazor"] },
+                    PostLogoutRedirectUris = { $"{configuration["BlazorClient"]}/" },
+                    AllowedCorsOrigins = { configuration["BlazorClient"].Contains("localhost") ? configuration["BlazorClient"][..(configuration["BlazorClient"].IndexOf("localhost") + 9)] : configuration["BlazorClient"] },
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
