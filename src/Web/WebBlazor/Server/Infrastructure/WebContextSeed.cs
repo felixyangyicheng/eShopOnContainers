@@ -1,13 +1,13 @@
 ﻿
 namespace WebBlazor.Server.Infrastructure;
 
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 public class WebContextSeed
 {
-    public static void Seed(IApplicationBuilder applicationBuilder, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+    public static void Seed(IApplicationBuilder applicationBuilder, IWebHostEnvironment env)
     {
-        var log = loggerFactory.CreateLogger<WebContextSeed>();
+        var log = Log.Logger;
 
         var settings = applicationBuilder
             .ApplicationServices.GetRequiredService<IOptions<AppSettings>>().Value;
@@ -29,7 +29,7 @@ public class WebContextSeed
             var imagesZipFile = Path.Combine(contentRootPath, "Setup", "images.zip");
             if (!File.Exists(imagesZipFile))
             {
-                log.LogError("Zip file '{ZipFileName}' does not exists.", imagesZipFile);
+                log.Error("Zip file '{ZipFileName}' does not exists.", imagesZipFile);
                 return;
             }
 
@@ -38,7 +38,7 @@ public class WebContextSeed
             {
                 Directory.CreateDirectory(imagePath);
             }
-            var imageFiles = Directory.GetFiles(imagePath).Select(file => Path.GetFileName(file)).ToArray();
+            var imageFiles = Directory.GetFiles(imagePath).Select(Path.GetFileName).ToArray();
 
             using var zip = ZipFile.Open(imagesZipFile, ZipArchiveMode.Read);
             foreach (var entry in zip.Entries)
@@ -54,13 +54,13 @@ public class WebContextSeed
                 }
                 else
                 {
-                    log.LogWarning("Skipped file '{FileName}' in zipfile '{ZipFileName}'", entry.Name, imagesZipFile);
+                    log.Warning("Skipped file '{FileName}' in zipfile '{ZipFileName}'", entry.Name, imagesZipFile);
                 }
             }
         }
         catch (Exception ex)
         {
-            log.LogError(ex, "ERROR in GetPreconfiguredImages: {Message}", ex.Message);
+            log.Error(ex, "ERROR in GetPreconfiguredImages: {Message}", ex.Message);
         }
     }
 }
