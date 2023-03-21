@@ -1,7 +1,7 @@
 ﻿
-namespace WebBlazor.Server.Infrastructure;
+using ILogger = Serilog.ILogger;
 
-using Serilog;
+namespace WebBlazor.Server.Infrastructure;
 
 public class WebContextSeed
 {
@@ -9,8 +9,7 @@ public class WebContextSeed
     {
         var log = Log.Logger;
 
-        var settings = applicationBuilder
-            .ApplicationServices.GetRequiredService<IOptions<AppSettings>>().Value;
+        var settings = applicationBuilder.ApplicationServices.GetRequiredService<IOptions<AppSettings>>().Value;
 
         var useCustomizationData = settings.UseCustomizationData;
         var contentRootPath = env.ContentRootPath;
