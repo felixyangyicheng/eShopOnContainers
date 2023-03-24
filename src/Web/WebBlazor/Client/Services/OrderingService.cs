@@ -9,20 +9,16 @@ public class OrderingService : IOrderingService
 
     public OrderingService(HttpClient httpClient, IConfiguration configuration)
     {
+        if (configuration is null) throw new ArgumentNullException(nameof(configuration));
+
         _httpClient = httpClient;
         _remoteServiceBaseUrl = $"{configuration["PurchaseUrl"]}/o/api/v1/orders";
     }
 
     public OrderDTO MapUserInfoIntoOrder(ClaimsPrincipal user, OrderDTO order)
     {
-        if (user is null)
-        {
-            throw new ArgumentNullException(nameof(user));
-        }
-        if (order is null)
-        {
-            throw new ArgumentNullException(nameof(order));
-        }
+        if (user is null) throw new ArgumentNullException(nameof(user));
+        if (order is null) throw new ArgumentNullException(nameof(order));
 
         var expirationSplit = user.GetExpiration().Split('/');
 
@@ -42,10 +38,7 @@ public class OrderingService : IOrderingService
 
     public BasketCheckoutDTO MapOrderToBasket(OrderDTO order)
     {
-        if (order is null)
-        {
-            throw new ArgumentNullException(nameof(order));
-        }
+        if (order is null) throw new ArgumentNullException(nameof(order));
 
         order.CardExpirationApiFormat();
 

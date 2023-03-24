@@ -3,7 +3,7 @@ using ILogger = Serilog.ILogger;
 
 namespace WebBlazor.Server.Infrastructure;
 
-public class WebContextSeed
+public static class WebContextSeed
 {
     public static void Seed(IApplicationBuilder applicationBuilder, IWebHostEnvironment env)
     {

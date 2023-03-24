@@ -1,6 +1,6 @@
 ﻿var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration["BaseUrl"] = new Uri(builder.Configuration["ASPNETCORE_URLS"])?.LocalPath ?? "/";
+builder.Configuration["BaseUrl"] = new Uri(builder.Configuration["ASPNETCORE_URLS"]).LocalPath ?? "/";
 
 RegisterAppInsights(builder);
 
@@ -14,7 +14,7 @@ builder.Services.Configure<AppSettings>(builder.Configuration);
 if (builder.Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString) {
     builder.Services
         .AddDataProtection(options => options.ApplicationDiscriminator = "eshop.webblazor")
-        .PersistKeysToStackExchangeRedis(ConnectionMultiplexer.Connect(builder.Configuration["DPConnectionString"]), "DataProtection-Keys");
+        .PersistKeysToStackExchangeRedis(await ConnectionMultiplexer.ConnectAsync(builder.Configuration["DPConnectionString"]), "DataProtection-Keys");
 }
 
 builder.Services

@@ -12,6 +12,8 @@ public class BasketService : IBasketService
 
     public BasketService(HttpClient httpClient, IConfiguration configuration, ILogger<BasketService> logger, IEventService eventService)
     {
+        if (configuration is null) throw new ArgumentNullException(nameof(configuration));
+
         _httpClient = httpClient;
         _logger = logger;
         _eventService = eventService;
@@ -85,10 +87,7 @@ public class BasketService : IBasketService
 
     public async Task<BasketDTO> UpdateBasket(BasketDTO basket)
     {
-        if (basket is null)
-        {
-            throw new ArgumentNullException(nameof(basket));
-        }
+        if (basket is null) throw new ArgumentNullException(nameof(basket));
 
         var uri = API.Basket.UpdateBasket(_basketByPassUrl);
 

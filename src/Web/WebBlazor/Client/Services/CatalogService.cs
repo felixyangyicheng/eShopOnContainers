@@ -8,6 +8,8 @@ public class CatalogService : ICatalogService
 
     public CatalogService(HttpClient httpClient, IConfiguration configuration)
     {
+        if (configuration is null) throw new ArgumentNullException(nameof(configuration));
+
         _httpClient = httpClient;
         _remoteServiceBaseUrl = $"{configuration["PurchaseUrl"]}/c/api/v1/catalog/";
     }
