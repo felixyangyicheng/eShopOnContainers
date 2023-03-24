@@ -5,6 +5,7 @@ public class OrderingService : IOrderingService
 {
     private readonly HttpClient _httpClient;
     private readonly string _remoteServiceBaseUrl;
+    private static readonly JsonSerializerOptions jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
 
     public OrderingService(HttpClient httpClient, IConfiguration configuration)
     {
@@ -71,7 +72,7 @@ public class OrderingService : IOrderingService
 
         var responseString = await _httpClient.GetStringAsync(new Uri(uri));
 
-        var response = JsonSerializer.Deserialize<List<OrderDTO>>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        var response = JsonSerializer.Deserialize<List<OrderDTO>>(responseString, jsonSerializerOptions);
 
         return response;
     }
@@ -100,7 +101,7 @@ public class OrderingService : IOrderingService
 
         var responseString = await _httpClient.GetStringAsync(new Uri(uri));
 
-        var response = JsonSerializer.Deserialize<OrderDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        var response = JsonSerializer.Deserialize<OrderDTO>(responseString, jsonSerializerOptions);
 
         return response;
     }

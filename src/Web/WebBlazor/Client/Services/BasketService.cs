@@ -8,6 +8,7 @@ public class BasketService : IBasketService
     private readonly IEventService _eventService;
     private readonly string _basketByPassUrl;
     private readonly string _purchaseUrl;
+    private static readonly JsonSerializerOptions jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
 
     public BasketService(HttpClient httpClient, IConfiguration configuration, ILogger<BasketService> logger, IEventService eventService)
     {
@@ -31,7 +32,7 @@ public class BasketService : IBasketService
 
         return string.IsNullOrEmpty(responseString) ?
             new() { BuyerId = userId } :
-            JsonSerializer.Deserialize<BasketDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            JsonSerializer.Deserialize<BasketDTO>(responseString, jsonSerializerOptions);
     }
 
     public async Task AddItemToBasket(string userId, int productId)
@@ -79,7 +80,7 @@ public class BasketService : IBasketService
 
         var responseString = await response.Content.ReadAsStringAsync();
 
-        return JsonSerializer.Deserialize<BasketDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        return JsonSerializer.Deserialize<BasketDTO>(responseString, jsonSerializerOptions);
     }
 
     public async Task<BasketDTO> UpdateBasket(BasketDTO basket)
@@ -111,7 +112,7 @@ public class BasketService : IBasketService
 
         var responseString = await _httpClient.GetStringAsync(new Uri(uri));
 
-        var response = JsonSerializer.Deserialize<OrderDTO>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        var response = JsonSerializer.Deserialize<OrderDTO>(responseString, jsonSerializerOptions);
 
         return response;
     }
