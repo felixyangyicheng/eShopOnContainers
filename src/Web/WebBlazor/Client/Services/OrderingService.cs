@@ -9,9 +9,9 @@ public class OrderingService : IOrderingService
 
     public OrderingService(HttpClient httpClient, IConfiguration configuration)
     {
+        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         if (configuration is null) throw new ArgumentNullException(nameof(configuration));
 
-        _httpClient = httpClient;
         _remoteServiceBaseUrl = $"{configuration["PurchaseUrl"]}/o/api/v1/orders";
     }
 
@@ -82,7 +82,7 @@ public class OrderingService : IOrderingService
 
         if (response.StatusCode == HttpStatusCode.InternalServerError)
         {
-            throw new Exception("Error cancelling order, try later.");
+            throw new OrderingException("Error cancelling order, try later.");
         }
 
         response.EnsureSuccessStatusCode();
@@ -111,7 +111,7 @@ public class OrderingService : IOrderingService
 
         if (response.StatusCode == HttpStatusCode.InternalServerError)
         {
-            throw new Exception("Error in ship order process, try later.");
+            throw new OrderingException("Error in ship order process, try later.");
         }
 
         response.EnsureSuccessStatusCode();

@@ -27,6 +27,7 @@ global using System.Text.Json.Serialization;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using WebBlazor.Client;
+global using WebBlazor.Client.Exceptions;
 global using WebBlazor.Client.Extensions;
 global using WebBlazor.Client.Infrastructure;
 global using WebBlazor.Client.Services;

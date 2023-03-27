@@ -12,11 +12,10 @@ public class BasketService : IBasketService
 
     public BasketService(HttpClient httpClient, IConfiguration configuration, ILogger<BasketService> logger, IEventService eventService)
     {
+        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         if (configuration is null) throw new ArgumentNullException(nameof(configuration));
-
-        _httpClient = httpClient;
-        _logger = logger;
-        _eventService = eventService;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _eventService = eventService ?? throw new ArgumentNullException(nameof(eventService));
 
         _basketByPassUrl = $"{configuration["PurchaseUrl"]}/b/api/v1/basket";
         _purchaseUrl = $"{configuration["PurchaseUrl"]}/api/v1";

@@ -8,9 +8,9 @@ public class CampaignService : ICampaignService
 
     public CampaignService(HttpClient httpClient, IConfiguration configuration)
     {
+        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         if (configuration is null) throw new ArgumentNullException(nameof(configuration));
 
-        _httpClient = httpClient;
         _remoteServiceBaseUrl = $"{configuration["MarketingUrl"]}/m/api/v1/campaigns/";
     }
 

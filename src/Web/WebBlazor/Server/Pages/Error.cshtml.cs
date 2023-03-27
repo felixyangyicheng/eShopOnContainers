@@ -11,7 +11,7 @@ public class ErrorModel : PageModel
     private readonly ILogger<ErrorModel> _logger;
 
     public ErrorModel(ILogger<ErrorModel> logger) =>
-        _logger = logger;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     public void OnGet() =>
         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
