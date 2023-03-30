@@ -5,6 +5,8 @@ namespace WebBlazor.Client.Pages.Orders;
 public partial class OrdersManagement
 {
     private List<OrderDTO> orders = new();
+    private bool errorReceived;
+    private string errorMessage;
     private string userId;
 
     [Inject]
@@ -19,15 +21,34 @@ public partial class OrdersManagement
         await LoadData();
     }
 
-    private async Task LoadData() =>
-        orders = await OrderingService.GetMyOrders(userId);
+    private async Task LoadData()
+    {
+        try
+        {
+            orders = await OrderingService.GetMyOrders(userId);
+            errorReceived = false;
+        }
+        catch (Exception)
+        {
+            errorReceived = true;
+            throw;
+        }    
+    }
 
     private async Task OrderProcess(string orderId, ChangeEventArgs e)
     {
         if (OrderProcessActionDTO.Ship.Code == e.Value.ToString())
         {
-            await OrderingService.ShipOrder(orderId);
-            await LoadData();
+            try
+            {
+                await OrderingService.ShipOrder(orderId);
+                await LoadData();
+                errorMessage = null;
+            }
+            catch (OrderDomainException ex)
+            {
+                errorMessage = ex.Message;
+            }
         }
     }
 }

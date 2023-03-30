@@ -80,12 +80,10 @@ public class OrderingService : IOrderingService
 
         var response = await _httpClient.PutAsync(new Uri(uri), orderContent);
 
-        if (response.StatusCode == HttpStatusCode.InternalServerError)
+        if (!response.IsSuccessStatusCode)
         {
-            throw new OrderingException("Error cancelling order, try later.");
+            throw new OrderDomainException("Error cancelling order.");
         }
-
-        response.EnsureSuccessStatusCode();
     }
 
     public async Task<OrderDTO> GetOrder(string userId, string orderId)
@@ -109,11 +107,9 @@ public class OrderingService : IOrderingService
 
         var response = await _httpClient.PutAsync(new Uri(uri), orderContent);
 
-        if (response.StatusCode == HttpStatusCode.InternalServerError)
+        if (!response.IsSuccessStatusCode)
         {
-            throw new OrderingException("Error in ship order process, try later.");
+            throw new OrderDomainException("Error in ship order process.");
         }
-
-        response.EnsureSuccessStatusCode();
     }
 }

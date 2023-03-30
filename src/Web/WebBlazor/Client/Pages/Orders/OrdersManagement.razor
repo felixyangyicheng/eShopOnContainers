@@ -4,6 +4,9 @@
     <div class="esh-orders">
         <div class="container">
             <h1 class="mb-4 mt-5">[ Order Management ]</h1>
+            <div class="esh-orders-alert alert" role="alert" hidden="@(!errorReceived)">
+                Error requesting order list, please try later on
+            </div>
 
             <div class="esh-orders-wrapper">
                 <article class="esh-orders-titles row">
@@ -37,6 +40,10 @@
                 <aside class="d-flex justify-content-end mt-5 pr-5">
                     <a class="btn btn-secondary" href="orders">Back to list</a>
                 </aside>
+            </div>
+
+            <div class="esh-orders-alert alert" role="alert" hidden="@(errorMessage == null)">
+                @errorMessage
             </div>
         </div>
     </div>

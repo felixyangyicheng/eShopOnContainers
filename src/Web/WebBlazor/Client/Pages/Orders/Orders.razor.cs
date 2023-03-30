@@ -5,6 +5,7 @@ namespace WebBlazor.Client.Pages.Orders;
 public partial class Orders : IAsyncDisposable
 {
     private bool errorReceived;
+    private string errorMessage;
     private string userId;
     private HubConnection hubConnection;
     private List<OrderDTO> orders = new();
@@ -69,8 +70,18 @@ public partial class Orders : IAsyncDisposable
         }
     }
 
-    private async Task CancelOrder(string orderNumber) =>
-        await OrderingService.CancelOrder(orderNumber);
+    private async Task CancelOrder(string orderNumber)
+    {
+        try
+        {
+            await OrderingService.CancelOrder(orderNumber);
+            errorMessage = null;
+        }
+        catch (OrderDomainException ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
 
     public async ValueTask DisposeAsync() =>
         await hubConnection.DisposeAsync();
