@@ -26,7 +26,7 @@
                         <section class="col-2">$@order.Total.ToString("N2")</section>
                         <section class="col-2">@order.Status</section>
                         <section class="col-2">
-                            @if (errorMessage == null && order.Status.ToLower() == "submitted")
+                            @if (order.Status.ToLower() == "submitted")
                             {
                                 <a class="esh-orders-link u-cursor-pointer" @onclick="() => CancelOrder(order.OrderNumber)">Cancel</a>
                             }
