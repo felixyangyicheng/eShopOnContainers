@@ -59,7 +59,7 @@ COPY "docker-compose.dcproj" "docker-compose.dcproj"
 COPY "Directory.Packages.props" "Directory.Packages.props"
 COPY "NuGet.config" "NuGet.config"
 
-RUN dotnet restore "eShopOnContainers-ServicesAndWebApps.sln" -rp:RunAOTCompilation=false
+RUN dotnet restore "eShopOnContainers-ServicesAndWebApps.sln" -p:RunAOTCompilation=false
 
 COPY . .
 COPY --from=node-build /web/wwwroot /src/Web/WebSPA/wwwroot/
