@@ -44,7 +44,11 @@ public partial class Orders : IAsyncDisposable
         }
         hubConnection = new HubConnectionBuilder()
             .WithUrl($"{Configuration["SignalrHubUrl"]}/hub/notificationhub", options =>
-                options.AccessTokenProvider = () => Task.FromResult(token.Value))
+            {
+                options.Transports = HttpTransportType.WebSockets;
+                options.SkipNegotiation = true;
+                options.AccessTokenProvider = () => Task.FromResult(token.Value);
+            })
             .WithAutomaticReconnect()
             .Build();
         hubConnection.On<HubMessage>("UpdatedOrderState", async message =>
