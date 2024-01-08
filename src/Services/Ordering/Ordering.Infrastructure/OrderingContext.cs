@@ -147,10 +147,5 @@ public class OrderingContextDesignFactory : IDesignTimeDbContextFactory<Ordering
         {
             return Task.FromResult(default(object));
         }
-
-        public Task Send<TRequest>(TRequest request, CancellationToken cancellationToken = default) where TRequest : IRequest
-        {
-            return Task.CompletedTask;
-        }
     }
 }

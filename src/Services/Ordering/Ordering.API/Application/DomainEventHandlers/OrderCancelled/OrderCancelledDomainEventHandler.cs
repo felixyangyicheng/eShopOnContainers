@@ -1,4 +1,6 @@
-﻿namespace Microsoft.eShopOnContainers.Services.Ordering.API.Application.DomainEventHandlers.OrderCancelled;
+﻿using Microsoft.eShopOnContainers.Services.Ordering.Domain.Events;
+
+namespace Microsoft.eShopOnContainers.Services.Ordering.API.Application.DomainEventHandlers.OrderCancelled;
 
 public class OrderCancelledDomainEventHandler
                 : INotificationHandler<OrderCancelledDomainEvent>

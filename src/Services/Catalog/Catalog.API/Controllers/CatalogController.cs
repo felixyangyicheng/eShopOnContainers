@@ -46,6 +46,15 @@ public class CatalogController : ControllerBase
             .Take(pageSize)
             .ToListAsync();
 
+        /* The "awesome" fix for testing Devspaces */
+
+        /*
+        foreach (var pr in itemsOnPage) {
+            pr.Name = "Awesome " + pr.Name;
+        }
+
+        */
+
         itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
 
         var model = new PaginatedItemsViewModel<CatalogItem>(pageIndex, pageSize, totalItems, itemsOnPage);
