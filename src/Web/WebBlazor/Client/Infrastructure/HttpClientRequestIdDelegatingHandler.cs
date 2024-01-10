@@ -9,6 +9,8 @@ public class HttpClientRequestIdDelegatingHandler : DelegatingHandler
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(request);
+
         if (request.Method == HttpMethod.Post || request.Method == HttpMethod.Put)
         {
             if (!request.Headers.Contains("x-requestid"))

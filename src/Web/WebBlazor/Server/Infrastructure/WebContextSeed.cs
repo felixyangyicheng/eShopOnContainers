@@ -7,6 +7,9 @@ public static class WebContextSeed
 {
     public static void Seed(IApplicationBuilder applicationBuilder, IWebHostEnvironment env)
     {
+        ArgumentNullException.ThrowIfNull(applicationBuilder);
+        ArgumentNullException.ThrowIfNull(env);
+
         var log = Log.Logger;
 
         var settings = applicationBuilder.ApplicationServices.GetRequiredService<IOptions<AppSettings>>().Value;

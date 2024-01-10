@@ -66,7 +66,7 @@ app.MapRazorPages();
 app.MapDefaultControllerRoute();
 app.MapFallbackToPage("/_Host");
 app.MapHealthChecks("/liveness", new HealthCheckOptions {
-    Predicate = r => r.Name.Contains("self")
+    Predicate = r => r.Name.Contains("self", StringComparison.OrdinalIgnoreCase)
 });
 app.MapHealthChecks("/hc", new HealthCheckOptions {
     Predicate = _ => true,
